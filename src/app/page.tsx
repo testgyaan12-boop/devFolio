@@ -1,4 +1,5 @@
 import AboutSection from '@/components/about-section';
+import Chatbot from '@/components/chatbot';
 import ContactSection from '@/components/contact-section';
 import ExperienceSection from '@/components/experience-section';
 import Footer from '@/components/footer';
@@ -20,6 +21,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }
