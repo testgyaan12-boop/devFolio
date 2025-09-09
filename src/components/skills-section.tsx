@@ -14,7 +14,7 @@ export default function SkillsSection({ data }: { data: SkillCategory[] }) {
   return (
     <section id="skills" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
       <div className="container px-4 md:px-6">
-        <div className="text-center animate-fade-in-up">
+        <div className="text-center animate-slide-in-up">
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">My Technical Arsenal</h2>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
             A showcase of the tools and technologies I wield to build powerful applications.
@@ -24,7 +24,7 @@ export default function SkillsSection({ data }: { data: SkillCategory[] }) {
           {data.map((category, index) => {
             const Icon = iconMap[category.category as keyof typeof iconMap] || Code;
             return (
-              <Card key={category.category} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}>
+              <Card key={category.category} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-slide-in-up" style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}>
                 <CardHeader className="flex flex-row items-center gap-4">
                   <Icon className="h-8 w-8 text-primary" />
                   <CardTitle className="font-headline text-2xl">{category.category}</CardTitle>

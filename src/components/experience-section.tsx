@@ -6,7 +6,7 @@ export default function ExperienceSection({ data }: { data: ExperienceData[] }) 
   return (
     <section id="experience" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
       <div className="container px-4 md:px-6">
-        <div className="text-center animate-fade-in-up">
+        <div className="text-center animate-slide-in-up">
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">Work Experience</h2>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
             My professional journey and key contributions.
@@ -24,7 +24,7 @@ export default function ExperienceSection({ data }: { data: ExperienceData[] }) 
                 <Briefcase className="h-6 w-6" />
               </div>
               <div className="w-full md:w-1/2">
-                <Card className={`transition-all duration-500 hover:shadow-xl hover:-translate-y-1 animate-fade-in-${index % 2 === 0 ? 'right' : 'left'} md:ml-4 md:odd:ml-0 md:odd:-mr-4`}>
+                <Card className={`transition-all duration-500 hover:shadow-xl hover:-translate-y-1 animate-slide-in-${index % 2 === 0 ? 'right' : 'left'} md:ml-4 md:odd:ml-0 md:odd:-mr-4`}>
                   <CardHeader>
                     <CardTitle className="font-headline text-xl">{item.role}</CardTitle>
                     <div className="flex justify-between text-sm text-muted-foreground">
