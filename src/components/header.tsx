@@ -1,11 +1,11 @@
 'use client';
 
-import { Code, Menu, MountainIcon } from 'lucide-react';
+import { Code, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -44,6 +44,7 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
+              <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
               <nav className="grid gap-6 text-lg font-medium mt-8">
                 {navLinks.map(({ href, label }) => (
                   <Link
