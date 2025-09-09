@@ -45,7 +45,8 @@ export default function Chatbot() {
     setInput('');
 
     try {
-      const { answer } = await chatAboutPortfolio(question);
+      const result = await chatAboutPortfolio(question);
+      const answer = result.answer;
       return {
         messages: [
           ...newMessages,
