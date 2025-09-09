@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 export default function AboutSection() {
   return (
-    <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-card">
+    <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black">
       <div className="container px-4 md:px-6">
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="flex items-center justify-center">
