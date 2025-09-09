@@ -45,11 +45,11 @@ export default function Chatbot() {
     setInput('');
 
     try {
-      const response = await chatAboutPortfolio(question);
+      const { answer } = await chatAboutPortfolio(question);
       return {
         messages: [
           ...newMessages,
-          { role: 'assistant', content: response.answer },
+          { role: 'assistant', content: answer },
         ],
       };
     } catch (error) {
