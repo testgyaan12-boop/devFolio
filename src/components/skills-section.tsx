@@ -43,17 +43,17 @@ const skillsData = [
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="w-full py-12 md:py-24 lg:py-32">
+    <section id="skills" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
       <div className="container px-4 md:px-6">
-        <div className="text-center">
+        <div className="text-center animate-fade-in-up">
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">My Technical Arsenal</h2>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
             A showcase of the tools and technologies I wield to build powerful applications.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-          {skillsData.map((category) => (
-            <Card key={category.category} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          {skillsData.map((category, index) => (
+            <Card key={category.category} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}>
               <CardHeader className="flex flex-row items-center gap-4">
                 <category.icon className="h-8 w-8 text-primary" />
                 <CardTitle className="font-headline text-2xl">{category.category}</CardTitle>

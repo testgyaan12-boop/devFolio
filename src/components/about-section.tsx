@@ -3,10 +3,10 @@ import { Card, CardContent } from '@/components/ui/card';
 
 export default function AboutSection() {
   return (
-    <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black">
+    <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-background">
       <div className="container px-4 md:px-6">
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center animate-fade-in-right">
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <Image
                 src="https://picsum.photos/400/400"
@@ -18,7 +18,7 @@ export default function AboutSection() {
               />
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 animate-fade-in-left">
             <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">About Me</h2>
             <p className="text-muted-foreground md:text-lg">
               I am a seasoned Full-Stack Developer with over three years of dedicated experience in the insurance technology sector. My expertise lies in architecting and developing scalable, high-performance applications using a robust tech stack centered around Java and Spring Boot.
