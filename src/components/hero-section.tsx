@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Download } from 'lucide-react';
 
 export default function HeroSection() {
   return (
@@ -15,10 +15,15 @@ export default function HeroSection() {
           <p className="max-w-[700px] text-indigo-100 md:text-xl drop-shadow-md">
             Specializing in Java, Spring Boot, and modern frontend frameworks to build robust applications for the insurance domain.
           </p>
-          <div className="pt-4">
+          <div className="pt-4 flex flex-col sm:flex-row gap-4">
             <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100 transition-transform duration-300 hover:scale-105 shadow-lg">
               <Link href="#contact">
                 Hire Me <ArrowDown className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-primary transition-transform duration-300 hover:scale-105 shadow-lg">
+              <Link href="/cv.pdf" download>
+                Download CV <Download className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>

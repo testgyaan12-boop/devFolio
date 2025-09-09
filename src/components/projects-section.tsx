@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from './ui/button';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 const projects = [
   {
@@ -11,21 +11,24 @@ const projects = [
     description: 'A comprehensive insurance platform with role-based access for sales, POSP, and MISP. Features business analytics, renewal reminders, and POSP data management.',
     technologies: ['Java', 'Spring Boot', 'React', 'SQL', 'REST API'],
     imageUrl: 'https://picsum.photos/600/400?random=1',
-    aiHint: 'business dashboard'
+    aiHint: 'business dashboard',
+    liveDemoUrl: '#'
   },
   {
     title: 'Commercial Insurance Portal',
     description: 'Led the development of a portal that integrates with multiple insurance company APIs to provide quotes and policy management for commercial clients.',
     technologies: ['Java', 'Spring Boot', 'Hibernate', 'Angular', 'SOAP'],
     imageUrl: 'https://picsum.photos/600/400?random=2',
-    aiHint: 'insurance portal'
+    aiHint: 'insurance portal',
+    liveDemoUrl: '#'
   },
   {
     title: 'Shop & Motor Insurance Platform',
     description: 'A full-stack application designed to streamline the process of purchasing and managing shop and motor insurance policies for individuals and small businesses.',
     technologies: ['Java', 'JPA', 'React', 'PostgreSQL', 'Microservices'],
     imageUrl: 'https://picsum.photos/600/400?random=3',
-    aiHint: 'e-commerce platform'
+    aiHint: 'e-commerce platform',
+    liveDemoUrl: '#'
   },
 ];
 
@@ -55,7 +58,7 @@ export default function ProjectsSection() {
                 <CardTitle className="font-headline">{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
               </CardHeader>
-              <CardContent className="flex-grow flex flex-col justify-end">
+              <CardContent className="flex-grow">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.map((tech) => (
                     <Badge key={tech} variant="outline">
@@ -64,6 +67,13 @@ export default function ProjectsSection() {
                   ))}
                 </div>
               </CardContent>
+              <CardFooter>
+                 <Button asChild variant="outline" className="w-full">
+                    <Link href={project.liveDemoUrl} target="_blank">
+                      View Live Demo <ExternalLink className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+              </CardFooter>
             </Card>
           ))}
         </div>

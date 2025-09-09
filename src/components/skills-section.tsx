@@ -1,29 +1,25 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Code, Database, Server, Briefcase } from 'lucide-react';
+'use client';
 
-const skillCategories = [
-  {
-    title: 'Backend Development',
-    icon: <Server className="h-8 w-8 text-primary" />,
-    skills: ['Java', 'Spring Boot', 'Hibernate', 'JPA', 'REST API'],
-  },
-  {
-    title: 'Frontend Development',
-    icon: <Code className="h-8 w-8 text-primary" />,
-    skills: ['React', 'Angular', 'HTML5', 'CSS3', 'JavaScript'],
-  },
-  {
-    title: 'Databases',
-    icon: <Database className="h-8 w-8 text-primary" />,
-    skills: ['SQL', 'MySQL', 'PostgreSQL'],
-  },
-  {
-    title: 'Insurance Domain Expertise',
-    icon: <Briefcase className="h-8 w-8 text-primary" />,
-    skills: ['Commercial Insurance', 'Motor Insurance', 'Shop Insurance', 'API Integration'],
-  },
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+
+const skillsData = [
+  { name: 'Java', level: 95 },
+  { name: 'Spring Boot', level: 90 },
+  { name: 'React', level: 85 },
+  { name: 'Angular', level: 80 },
+  { name: 'SQL', level: 90 },
+  { name: 'REST API', level: 95 },
+  { name: 'Microservices', level: 80 },
 ];
+
+const chartConfig = {
+  level: {
+    label: 'Proficiency',
+    color: 'hsl(var(--primary))',
+  },
+};
 
 export default function SkillsSection() {
   return (
@@ -32,27 +28,39 @@ export default function SkillsSection() {
         <div className="text-center">
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">My Technical Skills</h2>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-            A snapshot of the technologies and methodologies I use to bring projects to life.
+            A visual representation of my proficiency in key technologies.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
-          {skillCategories.map((category) => (
-            <Card key={category.title} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <CardHeader className="flex flex-col items-center text-center pb-4">
-                {category.icon}
-                <CardTitle className="mt-4 font-headline">{category.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow flex justify-center">
-                <div className="flex flex-wrap justify-center gap-2">
-                  {category.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="text-sm">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="mt-12">
+          <Card>
+            <CardHeader>
+              <CardTitle>Skill Proficiency</CardTitle>
+              <CardDescription>My confidence level in various technologies, from 0 to 100.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
+                <ResponsiveContainer width="100%" height={350}>
+                  <BarChart data={skillsData} layout="vertical" margin={{ left: 10 }}>
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                    <XAxis type="number" hide />
+                    <YAxis
+                      dataKey="name"
+                      type="category"
+                      tickLine={false}
+                      axisLine={false}
+                      tick={{ fill: 'hsl(var(--foreground))' }}
+                      width={120}
+                    />
+                    <Tooltip
+                      cursor={{ fill: 'hsl(var(--accent))' }}
+                      content={<ChartTooltipContent indicator="dot" />}
+                    />
+                    <Bar dataKey="level" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
