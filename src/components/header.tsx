@@ -25,14 +25,14 @@ export default function Header() {
       <div className="container flex h-14 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Code className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline">DevFolio</span>
+          <span className="font-bold font-headline text-foreground">DevFolio</span>
         </Link>
         <nav className="hidden flex-1 items-center gap-6 text-sm md:flex">
           {navLinks.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
-              className="font-medium text-foreground/60 transition-colors hover:text-foreground/80 flex items-center gap-2"
+              className="font-medium text-muted-foreground transition-colors hover:text-foreground flex items-center gap-2"
             >
               {Icon && <Icon className="h-4 w-4" />}
               {label}

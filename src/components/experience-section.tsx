@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ExperienceSection({ data }: { data: ExperienceData[] }) {
   return (
-    <section id="experience" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
+    <section id="experience" className="w-full py-12 md:py-24 lg:py-32 bg-background">
       <div className="container px-4 md:px-6">
         <div className="text-center animate-slide-in-up">
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">Work Experience</h2>
@@ -33,7 +33,7 @@ export default function ExperienceSection({ data }: { data: ExperienceData[] }) 
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p>{item.description}</p>
+                    <p className="text-sm text-muted-foreground">{item.description}</p>
                   </CardContent>
                 </Card>
               </div>

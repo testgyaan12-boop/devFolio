@@ -51,19 +51,16 @@ export default function ContactSection() {
   }, [state, toast]);
 
   return (
-    <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+    <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
       <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 animate-slide-in-up">
         <div className="space-y-3">
-          <div className="inline-flex items-center justify-center rounded-full bg-primary p-3 text-primary-foreground">
-            <Mail className="h-6 w-6" />
-          </div>
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">Get in Touch</h2>
           <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Have a project in mind or want to connect? I'd love to hear from you.
           </p>
         </div>
         <div className="mx-auto w-full max-w-sm lg:max-w-md">
-          <Card className="shadow-2xl border-primary/20">
+          <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl font-headline">Contact Me</CardTitle>
               <CardDescription>Fill out the form below and I'll get back to you as soon as possible.</CardDescription>

@@ -12,7 +12,7 @@ const iconMap = {
 
 export default function SkillsSection({ data }: { data: SkillCategory[] }) {
   return (
-    <section id="skills" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
+    <section id="skills" className="w-full py-12 md:py-24 lg:py-32 bg-background">
       <div className="container px-4 md:px-6">
         <div className="text-center animate-slide-in-up">
           <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl">My Technical Arsenal</h2>
