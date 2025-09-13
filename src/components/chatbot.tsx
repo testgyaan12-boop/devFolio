@@ -79,7 +79,7 @@ export default function Chatbot() {
 
   return (
     <>
-      <div className={cn("fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out", {
+      <div className={cn("fixed bottom-24 right-6 z-50 transition-transform duration-300 ease-in-out md:bottom-6", {
         'transform scale-0 opacity-0': isOpen,
         'transform scale-100 opacity-100': !isOpen,
       })}>
@@ -89,7 +89,7 @@ export default function Chatbot() {
         </Button>
       </div>
 
-      <div className={cn("fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out", {
+      <div className={cn("fixed bottom-24 right-6 z-50 transition-transform duration-300 ease-in-out md:bottom-6", {
           'transform scale-100 opacity-100': isOpen,
           'transform scale-0 opacity-0': !isOpen,
         })}>
