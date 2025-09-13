@@ -117,8 +117,8 @@ const projectsData: Project[] = [
     description:
       'A comprehensive insurance platform with role-based access for sales, POSP, and MISP. Features business analytics, renewal reminders, and POSP data management.',
     technologies: ['Java', 'Spring Boot', 'React', 'SQL', 'REST API'],
-    imageUrl: 'https://picsum.photos/seed/insurance-agent/600/400',
-    aiHint: 'insurance agent',
+    imageUrl: 'https://picsum.photos/seed/storefront/600/400',
+    aiHint: 'storefront restaurant',
     liveDemoUrl: '#',
   },
   {
@@ -136,7 +136,7 @@ const projectsData: Project[] = [
       'A full-stack application designed to streamline the process of purchasing and managing shop and motor insurance policies for individuals and small businesses.',
     technologies: ['Java', 'JPA', 'React', 'PostgreSQL', 'Microservices'],
     imageUrl: 'https://picsum.photos/seed/storefront/600/400',
-    aiHint: 'storefront',
+    aiHint: 'storefront restaurant',
     liveDemoUrl: '#',
   },
 ];
