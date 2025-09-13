@@ -137,7 +137,7 @@ const projectsData: Project[] = [
     technologies: ['Java', 'JPA', 'React', 'PostgreSQL', 'Microservices'],
     imageUrl: 'https://picsum.photos/seed/restaurant-view/600/400',
     aiHint: 'restaurant view',
-    liveDemoUrl: '#',
+    liveDemoUrl: 'https://shop.finhaatinsurance.com/',
   },
 ];
 
