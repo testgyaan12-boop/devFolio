@@ -62,22 +62,35 @@ export default function Chatbot() {
   }
   
   const [state, formAction, isPending] = useActionState(chatAction, initialState);
+  const previousMessagesLength = useRef(initialState.messages.length);
+
 
   useEffect(() => {
-    if (scrollViewportRef.current) {
-      scrollViewportRef.current.scrollTo({
-        top: scrollViewportRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-    // Clear the input field after a new message is added (user or assistant)
-    if (state.messages.length > initialState.messages.length) {
-       setInput('');
+    // This effect handles clearing the input and scrolling after a new message is added.
+    if (state.messages.length > previousMessagesLength.current) {
+      // Clear the input field
+      setInput('');
+
+      // Scroll to the bottom
+      if (scrollViewportRef.current) {
+        setTimeout(() => {
+          scrollViewportRef.current?.scrollTo({
+            top: scrollViewportRef.current.scrollHeight,
+            behavior: 'smooth',
+          });
+        }, 100); // A small delay ensures the DOM has updated
+      }
+
+      // Update the reference to the current message count
+      previousMessagesLength.current = state.messages.length;
     }
   }, [state.messages]);
 
   const handleFormAction = (formData: FormData) => {
-    formAction(formData);
+    // Manually trigger the form action only if the input is not empty
+    if (input.trim()) {
+      formAction(formData);
+    }
   };
 
   return (
@@ -156,7 +169,7 @@ export default function Chatbot() {
                   disabled={isPending}
                   autoComplete='off'
                 />
-                <Button type="submit" disabled={isPending || !input}>
+                <Button type="submit" disabled={isPending || !input.trim()}>
                   {isPending ? <Loader className="animate-spin" /> : <Send />}
                 </Button>
               </form>
