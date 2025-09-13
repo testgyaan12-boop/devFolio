@@ -33,8 +33,7 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const scrollViewportRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-
+  
   async function chatAction(_prevState: ChatState, formData: FormData): Promise<ChatState> {
     const question = formData.get('question') as string;
     if (!question) return _prevState;
@@ -64,20 +63,17 @@ export default function Chatbot() {
   const [state, formAction, isPending] = useActionState(chatAction, initialState);
 
   useEffect(() => {
-    // This effect handles clearing the input and scrolling after a new message is added.
     if (state.messages.length > initialState.messages.length && !isPending) {
-      // Clear the input field
       setInput('');
     }
-    
-    // Scroll to the bottom whenever messages change
+  }, [state.messages, isPending]);
+
+  useEffect(() => {
     if (scrollViewportRef.current) {
-        setTimeout(() => {
-          scrollViewportRef.current?.scrollTo({
-            top: scrollViewportRef.current.scrollHeight,
-            behavior: 'smooth',
-          });
-        }, 100); // A small delay ensures the DOM has updated
+        scrollViewportRef.current.scrollTo({
+          top: scrollViewportRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
     }
   }, [state.messages, isPending]);
 
@@ -148,7 +144,7 @@ export default function Chatbot() {
               </div>
             </ScrollArea>
             <div className="p-4 border-t">
-              <form ref={formRef} action={formAction} className="flex gap-2">
+              <form action={formAction} className="flex gap-2">
                 <Input
                   name="question"
                   placeholder="Ask about my projects..."
