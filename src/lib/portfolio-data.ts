@@ -1,3 +1,4 @@
+
 export type HeroData = {
   title: string;
   subtitle: string;
@@ -116,8 +117,8 @@ const projectsData: Project[] = [
     description:
       'A comprehensive insurance platform with role-based access for sales, POSP, and MISP. Features business analytics, renewal reminders, and POSP data management.',
     technologies: ['Java', 'Spring Boot', 'React', 'SQL', 'REST API'],
-    imageUrl: 'https://picsum.photos/seed/fire-safety/600/400',
-    aiHint: 'fire safety',
+    imageUrl: 'https://picsum.photos/seed/insurance-agent/600/400',
+    aiHint: 'insurance agent',
     liveDemoUrl: '#',
   },
   {
@@ -125,8 +126,8 @@ const projectsData: Project[] = [
     description:
       'Led the development of a portal that integrates with multiple insurance company APIs to provide quotes and policy management for commercial clients.',
     technologies: ['Java', 'Spring Boot', 'Hibernate', 'Angular', 'SOAP'],
-    imageUrl: 'https://picsum.photos/seed/burglary-theft/600/400',
-    aiHint: 'burglary theft',
+    imageUrl: 'https://picsum.photos/seed/commercial-vehicle/600/400',
+    aiHint: 'commercial vehicle',
     liveDemoUrl: '#',
   },
   {
@@ -134,8 +135,8 @@ const projectsData: Project[] = [
     description:
       'A full-stack application designed to streamline the process of purchasing and managing shop and motor insurance policies for individuals and small businesses.',
     technologies: ['Java', 'JPA', 'React', 'PostgreSQL', 'Microservices'],
-    imageUrl: 'https://picsum.photos/seed/storefront-vehicle/600/400',
-    aiHint: 'storefront vehicle',
+    imageUrl: 'https://picsum.photos/seed/storefront/600/400',
+    aiHint: 'storefront',
     liveDemoUrl: '#',
   },
 ];
