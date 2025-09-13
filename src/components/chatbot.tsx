@@ -62,36 +62,24 @@ export default function Chatbot() {
   }
   
   const [state, formAction, isPending] = useActionState(chatAction, initialState);
-  const previousMessagesLength = useRef(initialState.messages.length);
-
 
   useEffect(() => {
     // This effect handles clearing the input and scrolling after a new message is added.
-    if (state.messages.length > previousMessagesLength.current) {
+    if (state.messages.length > initialState.messages.length && !isPending) {
       // Clear the input field
       setInput('');
-
-      // Scroll to the bottom
-      if (scrollViewportRef.current) {
+    }
+    
+    // Scroll to the bottom whenever messages change
+    if (scrollViewportRef.current) {
         setTimeout(() => {
           scrollViewportRef.current?.scrollTo({
             top: scrollViewportRef.current.scrollHeight,
             behavior: 'smooth',
           });
         }, 100); // A small delay ensures the DOM has updated
-      }
-
-      // Update the reference to the current message count
-      previousMessagesLength.current = state.messages.length;
     }
-  }, [state.messages]);
-
-  const handleFormAction = (formData: FormData) => {
-    // Manually trigger the form action only if the input is not empty
-    if (input.trim()) {
-      formAction(formData);
-    }
-  };
+  }, [state.messages, isPending]);
 
   return (
     <>
@@ -160,7 +148,7 @@ export default function Chatbot() {
               </div>
             </ScrollArea>
             <div className="p-4 border-t">
-              <form ref={formRef} action={handleFormAction} className="flex gap-2">
+              <form ref={formRef} action={formAction} className="flex gap-2">
                 <Input
                   name="question"
                   placeholder="Ask about my projects..."
