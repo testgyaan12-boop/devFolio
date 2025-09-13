@@ -23,8 +23,9 @@ export default function ProjectsSection({ data }: { data: Project[] }) {
                 <Image
                   src={project.imageUrl}
                   alt={project.title}
-                  fill
-                  className="object-cover"
+                  width={600}
+                  height={400}
+                  className="object-cover w-full h-full"
                   data-ai-hint={project.aiHint}
                 />
               </div>

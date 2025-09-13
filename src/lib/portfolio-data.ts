@@ -116,8 +116,8 @@ const projectsData: Project[] = [
     description:
       'A comprehensive insurance platform with role-based access for sales, POSP, and MISP. Features business analytics, renewal reminders, and POSP data management.',
     technologies: ['Java', 'Spring Boot', 'React', 'SQL', 'REST API'],
-    imageUrl: 'https://picsum.photos/600/400?random=1',
-    aiHint: 'business dashboard',
+    imageUrl: 'https://picsum.photos/seed/insurance-analytics/600/400',
+    aiHint: 'insurance analytics',
     liveDemoUrl: '#',
   },
   {
@@ -125,8 +125,8 @@ const projectsData: Project[] = [
     description:
       'Led the development of a portal that integrates with multiple insurance company APIs to provide quotes and policy management for commercial clients.',
     technologies: ['Java', 'Spring Boot', 'Hibernate', 'Angular', 'SOAP'],
-    imageUrl: 'https://picsum.photos/600/400?random=2',
-    aiHint: 'insurance portal',
+    imageUrl: 'https://picsum.photos/seed/commercial-building/600/400',
+    aiHint: 'commercial building',
     liveDemoUrl: '#',
   },
   {
@@ -134,8 +134,8 @@ const projectsData: Project[] = [
     description:
       'A full-stack application designed to streamline the process of purchasing and managing shop and motor insurance policies for individuals and small businesses.',
     technologies: ['Java', 'JPA', 'React', 'PostgreSQL', 'Microservices'],
-    imageUrl: 'https://picsum.photos/600/400?random=3',
-    aiHint: 'e-commerce platform',
+    imageUrl: 'https://picsum.photos/seed/car-insurance/600/400',
+    aiHint: 'car insurance',
     liveDemoUrl: '#',
   },
 ];
