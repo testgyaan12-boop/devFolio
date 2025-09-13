@@ -46,11 +46,10 @@ export default function Chatbot() {
 
     try {
       const result = await chatAboutPortfolio(question);
-      const answer = result.answer;
       return {
         messages: [
           ...newMessages,
-          { role: 'assistant', content: answer },
+          { role: 'assistant', content: result.answer },
         ],
       };
     } catch (error) {
@@ -77,9 +76,7 @@ export default function Chatbot() {
     }
   }, [state.messages]);
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const handleFormAction = (formData: FormData) => {
     formAction(formData);
   };
 
@@ -150,7 +147,7 @@ export default function Chatbot() {
               </div>
             </ScrollArea>
             <div className="p-4 border-t">
-              <form ref={formRef} onSubmit={handleFormSubmit} className="flex gap-2">
+              <form ref={formRef} action={handleFormAction} className="flex gap-2">
                 <Input
                   name="question"
                   placeholder="Ask about my projects..."
