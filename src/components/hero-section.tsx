@@ -75,7 +75,7 @@ export default function HeroSection({ data }: { data: HeroData }) {
               </Button>
             </div>
           </div>
-          <div className="hidden lg:flex items-center justify-center animate-slide-in-left">
+          <div className="flex items-center justify-center animate-slide-in-left">
              <Image
                 src="https://picsum.photos/seed/hero/600/600"
                 alt="Developer Portrait"
