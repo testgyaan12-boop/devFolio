@@ -135,8 +135,8 @@ const projectsData: Project[] = [
     description:
       'A full-stack application designed to streamline the process of purchasing and managing shop and motor insurance policies for individuals and small businesses.',
     technologies: ['Java', 'JPA', 'React', 'PostgreSQL', 'Microservices'],
-    imageUrl: 'https://picsum.photos/seed/storefront/600/400',
-    aiHint: 'storefront restaurant',
+    imageUrl: 'https://picsum.photos/seed/restaurant-view/600/400',
+    aiHint: 'restaurant view',
     liveDemoUrl: '#',
   },
 ];
