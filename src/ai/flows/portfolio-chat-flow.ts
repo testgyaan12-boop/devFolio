@@ -19,8 +19,7 @@ const PortfolioChatOutputSchema = z.object({
 export async function chatAboutPortfolio(
   question: string
 ): Promise<{ answer: string }> {
-  const { output } = await chatFlow({ question });
-  return output!;
+  return await chatFlow({ question });
 }
 
 const portfolioContext = `
