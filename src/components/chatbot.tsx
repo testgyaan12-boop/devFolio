@@ -32,7 +32,7 @@ const initialState: ChatState = {
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const scrollViewportRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   
   async function chatAction(_prevState: ChatState, formData: FormData): Promise<ChatState> {
     const question = formData.get('question') as string;
@@ -63,19 +63,19 @@ export default function Chatbot() {
   const [state, formAction, isPending] = useActionState(chatAction, initialState);
 
   useEffect(() => {
-    if (state.messages.length > initialState.messages.length && !isPending) {
+    if (!isPending) {
       setInput('');
     }
-  }, [state.messages, isPending]);
+  }, [isPending]);
 
   useEffect(() => {
-    if (scrollViewportRef.current) {
-        scrollViewportRef.current.scrollTo({
-          top: scrollViewportRef.current.scrollHeight,
+    if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTo({
+          top: scrollAreaRef.current.scrollHeight,
           behavior: 'smooth',
         });
     }
-  }, [state.messages, isPending]);
+  }, [state.messages]);
 
   return (
     <>
@@ -100,8 +100,8 @@ export default function Chatbot() {
               <X className="h-4 w-4" />
             </Button>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col p-0">
-            <ScrollArea className="flex-1 p-6" viewportRef={scrollViewportRef}>
+          <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
+            <ScrollArea className="flex-1 p-6" viewportRef={scrollAreaRef}>
               <div className="space-y-4">
                 {state.messages.map((message, index) => (
                   <div
@@ -143,7 +143,7 @@ export default function Chatbot() {
                 )}
               </div>
             </ScrollArea>
-            <div className="p-4 border-t">
+            <div className="p-4 border-t mt-auto">
               <form action={formAction} className="flex gap-2">
                 <Input
                   name="question"
