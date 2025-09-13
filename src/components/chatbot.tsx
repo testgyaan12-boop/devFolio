@@ -32,7 +32,7 @@ const initialState: ChatState = {
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const scrollViewportRef = useRef<HTMLDivElement>(null);
 
   async function chatAction(_prevState: ChatState, formData: FormData): Promise<ChatState> {
     const question = formData.get('question') as string;
@@ -66,9 +66,9 @@ export default function Chatbot() {
   const [state, formAction, isPending] = useActionState(chatAction, initialState);
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
+    if (scrollViewportRef.current) {
+      scrollViewportRef.current.scrollTo({
+        top: scrollViewportRef.current.scrollHeight,
         behavior: 'smooth',
       });
     }
@@ -98,7 +98,7 @@ export default function Chatbot() {
             </Button>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col p-0">
-            <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
+            <ScrollArea className="flex-1 p-6" viewportRef={scrollViewportRef}>
               <div className="space-y-4">
                 {state.messages.map((message, index) => (
                   <div
