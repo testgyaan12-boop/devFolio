@@ -33,6 +33,7 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const scrollViewportRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   async function chatAction(_prevState: ChatState, formData: FormData): Promise<ChatState> {
     const question = formData.get('question') as string;
@@ -42,8 +43,6 @@ export default function Chatbot() {
       ..._prevState.messages,
       { role: 'user', content: question },
     ];
-    
-    setInput('');
 
     try {
       const result = await chatAboutPortfolio(question);
@@ -72,7 +71,17 @@ export default function Chatbot() {
         behavior: 'smooth',
       });
     }
+    // Clear the input field after a new message is added (user or assistant)
+    if (state.messages.length > initialState.messages.length) {
+       setInput('');
+    }
   }, [state.messages]);
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    formAction(formData);
+  };
 
   return (
     <>
@@ -141,7 +150,7 @@ export default function Chatbot() {
               </div>
             </ScrollArea>
             <div className="p-4 border-t">
-              <form action={formAction} className="flex gap-2">
+              <form ref={formRef} onSubmit={handleFormSubmit} className="flex gap-2">
                 <Input
                   name="question"
                   placeholder="Ask about my projects..."
