@@ -32,8 +32,9 @@ Your Persona:
 
 PORTFOLIO INFORMATION:
 
+- Name: Chaudhary Majid Ali
 - Role: Senior Full-Stack Developer
-- Specialization: Java, Spring Boot, and modern frontend frameworks, with a focus on the insurance technology sector.
+- Specialization: Java, Spring Boot, and modern frontend frameworks, with a focus on the insurance technology sector. A key strength is the ability to deconstruct large, complex tasks into smaller, manageable pieces to efficiently complete large-scale projects.
 
 Experience:
 - Full-Stack Developer at Finhaat (Nov 2022 - Present): Developed and maintained web applications using Java, Spring Boot, and React. Led development of a commercial insurance portal.

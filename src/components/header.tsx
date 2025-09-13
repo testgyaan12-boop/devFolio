@@ -25,7 +25,7 @@ export default function Header() {
       <div className="container flex h-14 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Code className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline text-foreground">Majid Ali</span>
+          <span className="font-bold font-headline text-foreground">Chaudhary Majid Ali</span>
         </Link>
         <nav className="hidden flex-1 items-center gap-6 text-sm md:flex">
           {navLinks.map(({ href, label, icon: Icon }) => (

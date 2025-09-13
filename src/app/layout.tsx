@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import BottomNavbar from '@/components/bottom-navbar';
 
 export const metadata: Metadata = {
-  title: 'Majid Ali',
+  title: 'Chaudhary Majid Ali',
   description: "A portfolio for a Senior Software Developer.",
 };
 

@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="flex items-center gap-2">
           <Code className="h-6 w-6 text-primary" />
-          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Majid Ali. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Chaudhary Majid Ali. All rights reserved.</p>
         </div>
         <div className="flex items-center gap-4">
           <Link href="#" aria-label="GitHub">

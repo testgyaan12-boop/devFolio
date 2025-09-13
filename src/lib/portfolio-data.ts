@@ -7,7 +7,6 @@ export type HeroData = {
 
 export type AboutData = {
   title: string;
-  imageUrl: string;
   paragraphs: string[];
 };
 
@@ -38,7 +37,7 @@ export type Project = {
 };
 
 const heroData: HeroData = {
-  title: 'Senior Full-Stack Developer',
+  title: 'Chaudhary Majid Ali',
   subtitle:
     'Specializing in Java, Spring Boot, and modern frontend frameworks to build robust applications for the insurance domain.',
   cta1_text: 'Hire Me',
@@ -47,10 +46,9 @@ const heroData: HeroData = {
 
 const aboutData: AboutData = {
   title: 'About Me',
-  imageUrl: 'https://picsum.photos/400/400',
   paragraphs: [
-    'I am a seasoned Full-Stack Developer with over three years of dedicated experience in the insurance technology sector. My expertise lies in architecting and developing scalable, high-performance applications using a robust tech stack centered around Java and Spring Boot.',
-    "Throughout my career, I've led teams in delivering complex projects like commercial insurance portals and motor insurance platforms. I thrive on solving challenges, from integrating with diverse third-party APIs to designing sophisticated business analytics tools. My work on projects like Finhaatpro showcases my ability to manage multiple user roles and deliver data-driven solutions.",
+    "My name is Chaudhary Majid Ali. I am a seasoned Full-Stack Developer with over three years of dedicated experience in the insurance technology sector. My expertise lies in architecting and developing scalable, high-performance applications using a robust tech stack centered around Java and Spring Boot.",
+    "My specialty is to divide large tasks into small pieces and resolve each piece of the task to complete a huge task. Throughout my career, I've led teams in delivering complex projects like commercial insurance portals and motor insurance platforms. I thrive on solving challenges, from integrating with diverse third-party APIs to designing sophisticated business analytics tools. My work on projects like Finhaatpro showcases my ability to manage multiple user roles and deliver data-driven solutions.",
   ],
 };
 
