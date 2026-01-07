@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { LayoutDashboard, ShoppingCart, History, CreditCard, User } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -14,6 +16,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import placeholderImages from '@/lib/placeholder-images.json';
 
 export default function Home() {
   const router = useRouter();
@@ -68,15 +72,72 @@ export default function Home() {
       <Tabs defaultValue="dashboard" className="flex-grow md:pt-8">
         <div className="p-4 md:p-8 md:pb-0 pb-20">
           <TabsContent value="dashboard">
-            <Card>
-              <CardHeader>
-                <CardTitle>Dashboard</CardTitle>
-                <CardDescription>This is the dashboard tab.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p>Dashboard content goes here.</p>
-              </CardContent>
-            </Card>
+            <div className="space-y-8">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {placeholderImages['carousel-water'].map((image, index) => (
+                    <CarouselItem key={index}>
+                      <Card className="overflow-hidden">
+                        <div className="relative h-48 md:h-80 w-full">
+                           <Image
+                            src={image.src}
+                            alt={image.alt}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            data-ai-hint={image.hint}
+                          />
+                        </div>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex" />
+                <CarouselNext className="hidden md:flex" />
+              </Carousel>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Brand, Our Bottles</CardTitle>
+                  <CardDescription>Customized water bottles with your own branding.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="relative h-64 w-full rounded-md overflow-hidden">
+                     <Image
+                      src={placeholderImages['custom-bottle'][0].src}
+                      alt={placeholderImages['custom-bottle'][0].alt}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      data-ai-hint={placeholderImages['custom-bottle'][0].hint}
+                    />
+                  </div>
+                  <p className="text-muted-foreground">
+                    We specialize in rebranding water bottles for hotels, corporate events, and businesses. 
+                    Provide us with your branding, and we'll deliver high-quality, customized water bottles
+                    that make a lasting impression.
+                  </p>
+                  <Button>Learn More</Button>
+                </CardContent>
+              </Card>
+
+              <Card>
+                 <CardHeader>
+                  <CardTitle>Advertise With Us</CardTitle>
+                  <CardDescription>Reach a wider audience by featuring your brand.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="relative h-64 w-full rounded-md overflow-hidden">
+                       <Image
+                        src={placeholderImages['advertisement-water'][0].src}
+                        alt={placeholderImages['advertisement-water'][0].alt}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        data-ai-hint={placeholderImages['advertisement-water'][0].hint}
+                      />
+                    </div>
+                </CardContent>
+              </Card>
+
+            </div>
           </TabsContent>
           <TabsContent value="order">
             <Card>

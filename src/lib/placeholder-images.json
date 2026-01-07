@@ -1,0 +1,33 @@
+{
+  "carousel-water": [
+    {
+      "src": "https://picsum.photos/seed/event/1200/400",
+      "alt": "Water bottles at an event",
+      "hint": "event branding"
+    },
+    {
+      "src": "https://picsum.photos/seed/hotel/1200/400",
+      "alt": "Custom water bottle in a hotel room",
+      "hint": "hotel amenities"
+    },
+    {
+      "src": "https://picsum.photos/seed/conference/1200/400",
+      "alt": "Branded water bottles at a conference",
+      "hint": "conference branding"
+    }
+  ],
+  "custom-bottle": [
+    {
+      "src": "https://picsum.photos/seed/bottlelabel/600/400",
+      "alt": "A water bottle with a custom brand label.",
+      "hint": "custom label"
+    }
+  ],
+  "advertisement-water": [
+    {
+      "src": "https://picsum.photos/seed/watersplash/600/400",
+      "alt": "Refreshing water splash.",
+      "hint": "water splash"
+    }
+  ]
+}
