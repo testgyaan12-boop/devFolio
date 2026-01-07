@@ -33,50 +33,50 @@
   "order-bottles": [
     {
       "id": 1,
-      "name": "Classic Steel 500ml",
-      "src": "https://picsum.photos/seed/steelbottle/300/300",
-      "alt": "A sleek stainless steel water bottle.",
-      "hint": "steel bottle",
+      "name": "Bisleri 500ml",
+      "src": "https://picsum.photos/seed/bisleri1/300/300",
+      "alt": "Bisleri mineral water bottle.",
+      "hint": "Bisleri water",
       "price": 1.5
     },
     {
       "id": 2,
-      "name": "Premium Glass 750ml",
-      "src": "https://picsum.photos/seed/glassbottle/300/300",
-      "alt": "An elegant premium glass water bottle.",
-      "hint": "glass bottle",
+      "name": "Kinley 750ml",
+      "src": "https://picsum.photos/seed/kinley1/300/300",
+      "alt": "Kinley purified water bottle.",
+      "hint": "Kinley water",
       "price": 2.2
     },
     {
       "id": 3,
-      "name": "Active Sport 600ml",
-      "src": "https://picsum.photos/seed/activesport/300/300",
-      "alt": "A durable sports water bottle with a grip.",
-      "hint": "sport bottle",
+      "name": "Tata Copper+ 1L",
+      "src": "https://picsum.photos/seed/tata1/300/300",
+      "alt": "Tata Copper Plus water bottle.",
+      "hint": "Tata water",
       "price": 1.75
     },
     {
       "id": 4,
-      "name": "Eco Pure 1L",
-      "src": "https://picsum.photos/seed/ecopure/300/300",
-      "alt": "A large, eco-friendly reusable water bottle.",
-      "hint": "reusable bottle",
+      "name": "Bisleri 1L",
+      "src": "https://picsum.photos/seed/bisleri2/300/300",
+      "alt": "1 litre Bisleri mineral water bottle.",
+      "hint": "Bisleri water",
       "price": 3
     },
     {
       "id": 5,
-      "name": "Adventure Flask",
-      "src": "https://picsum.photos/seed/flask/300/300",
-      "alt": "A rugged flask for outdoor adventures.",
-      "hint": "flask bottle",
+      "name": "Kinley 1L",
+      "src": "https://picsum.photos/seed/kinley2/300/300",
+      "alt": "1 litre Kinley purified water bottle.",
+      "hint": "Kinley water",
       "price": 2.8
     },
     {
       "id": 6,
-      "name": "Hydrate Infuser",
-      "src": "https://picsum.photos/seed/hydrainfuser/300/300",
-      "alt": "A clear water bottle with a fruit infuser inside.",
-      "hint": "infuser bottle",
+      "name": "Tata Gluco+ 500ml",
+      "src": "https://picsum.photos/seed/tata2/300/300",
+      "alt": "Tata Gluco Plus energy drink bottle.",
+      "hint": "Tata drink",
       "price": 3.5
     }
   ]
