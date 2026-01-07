@@ -123,15 +123,15 @@ export default function BillPage() {
                   <TableRow key={item.product.id}>
                     <TableCell>{item.product.name}</TableCell>
                     <TableCell className="text-center">{item.quantity}</TableCell>
-                    <TableCell className="text-right">${item.product.price.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">${(item.product.price * item.quantity).toFixed(2)}</TableCell>
+                    <TableCell className="text-right">₹{item.product.price.toFixed(2)}</TableCell>
+                    <TableCell className="text-right">₹{(item.product.price * item.quantity).toFixed(2)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
               <TableFooter>
                 <TableRow>
                   <TableCell colSpan={3} className="text-right font-bold text-lg">Total</TableCell>
-                  <TableCell className="text-right font-bold text-lg">${order.total.toFixed(2)}</TableCell>
+                  <TableCell className="text-right font-bold text-lg">₹{order.total.toFixed(2)}</TableCell>
                 </TableRow>
               </TableFooter>
             </Table>

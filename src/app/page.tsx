@@ -318,7 +318,7 @@ export default function Home() {
             <div className="flex flex-col h-full">
               <SheetHeader className="px-4">
                 <SheetTitle>{selectedProduct.name}</SheetTitle>
-                <SheetDescription>${selectedProduct.price.toFixed(2)}</SheetDescription>
+                <SheetDescription>₹{selectedProduct.price.toFixed(2)}</SheetDescription>
               </SheetHeader>
               <div className="flex-grow overflow-y-auto p-4 space-y-4">
                 <div className="relative h-64 w-full rounded-md overflow-hidden">
@@ -501,7 +501,7 @@ export default function Home() {
                                      </div>
                                    </div>
                                     <div className="text-right">
-                                      <p className="font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p>
+                                      <p className="font-semibold">₹{(item.product.price * item.quantity).toFixed(2)}</p>
                                       <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setProductToDelete(item.product.id)}>
                                          <Trash2 className="h-4 w-4" />
                                       </Button>
@@ -511,7 +511,7 @@ export default function Home() {
                                <Separator />
                                <div className="flex justify-between font-semibold">
                                  <span>Total</span>
-                                 <span>${orderTotal.toFixed(2)}</span>
+                                 <span>₹{orderTotal.toFixed(2)}</span>
                                </div>
                                 <Button className="w-full" disabled={cart.length === 0} onClick={() => setIsCheckoutConfirmOpen(true)}>
                                   Proceed to Checkout
@@ -593,7 +593,7 @@ export default function Home() {
                           </div>
                           <div className="p-2 sm:p-4 flex flex-col flex-grow">
                             <h3 className="text-sm sm:text-lg font-semibold truncate flex-grow">{product.name}</h3>
-                            <p className="text-xs sm:text-sm text-muted-foreground">${product.price.toFixed(2)}</p>
+                            <p className="text-xs sm:text-sm text-muted-foreground">₹{product.price.toFixed(2)}</p>
                             <div className="mt-2 sm:mt-4 flex flex-col items-stretch gap-2">
                               <div className="flex items-center justify-center gap-2">
                                 <Button
@@ -666,7 +666,7 @@ export default function Home() {
                             <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize shrink-0">
                               {order.status}
                             </Badge>
-                            <p className="font-semibold text-lg whitespace-nowrap">${order.total.toFixed(2)}</p>
+                            <p className="font-semibold text-lg whitespace-nowrap">₹{order.total.toFixed(2)}</p>
                           </div>
                         </div>
                       </CardHeader>
@@ -685,7 +685,7 @@ export default function Home() {
                                   <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                                 </div>
                               </div>
-                              <p className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</p>
+                              <p className="font-medium">₹{(item.product.price * item.quantity).toFixed(2)}</p>
                             </div>
                           ))}
                         </div>
@@ -738,7 +738,7 @@ export default function Home() {
                                 <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize">
                                   {order.status === 'Delivered' ? 'Complete' : 'Pending'}
                                 </Badge>
-                                <p className="font-semibold text-lg whitespace-nowrap">${order.total.toFixed(2)}</p>
+                                <p className="font-semibold text-lg whitespace-nowrap">₹{order.total.toFixed(2)}</p>
                               </div>
                             </div>
                           </CardHeader>
