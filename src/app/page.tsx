@@ -331,6 +331,58 @@ export default function Home() {
           </TabsContent>
           <TabsContent value="product">
             <div className="grid gap-8 lg:grid-cols-3">
+              <div className="lg:col-span-1 lg:order-last">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Order Summary</CardTitle>
+                    <CardDescription>Review your items before checkout.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {cart.length === 0 ? (
+                      <p className="text-muted-foreground text-center">Your cart is empty.</p>
+                    ) : (
+                      <div className="space-y-4">
+                        {cart.map((item) => (
+                           <div key={item.product.id} className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <Avatar className="rounded-md">
+                                <AvatarImage src={item.product.src} alt={item.product.alt}/>
+                                <AvatarFallback>{item.product.name.charAt(0)}</AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <p className="font-medium">{item.product.name}</p>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleUpdateCartQuantity(item.product.id, item.quantity - 1)}>
+                                    <Minus className="h-3 w-3" />
+                                  </Button>
+                                  <span className="text-sm">{item.quantity}</span>
+                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleUpdateCartQuantity(item.product.id, item.quantity + 1)}>
+                                    <Plus className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                             <div className="text-right">
+                               <p className="font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p>
+                               <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setProductToDelete(item.product.id)}>
+                                  <Trash2 className="h-4 w-4" />
+                               </Button>
+                            </div>
+                          </div>
+                        ))}
+                        <Separator />
+                        <div className="flex justify-between font-semibold">
+                          <span>Total</span>
+                          <span>${orderTotal.toFixed(2)}</span>
+                        </div>
+                         <Button className="w-full" disabled={cart.length === 0} onClick={() => setIsCheckoutConfirmOpen(true)}>
+                           Proceed to Checkout
+                         </Button>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
               <div className="lg:col-span-2">
                 <Card>
                   <CardHeader>
@@ -387,58 +439,6 @@ export default function Home() {
                         </div>
                       </Card>
                     ))}
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="lg:col-span-1">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Order Summary</CardTitle>
-                    <CardDescription>Review your items before checkout.</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {cart.length === 0 ? (
-                      <p className="text-muted-foreground text-center">Your cart is empty.</p>
-                    ) : (
-                      <div className="space-y-4">
-                        {cart.map((item) => (
-                           <div key={item.product.id} className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <Avatar className="rounded-md">
-                                <AvatarImage src={item.product.src} alt={item.product.alt}/>
-                                <AvatarFallback>{item.product.name.charAt(0)}</AvatarFallback>
-                              </Avatar>
-                              <div>
-                                <p className="font-medium">{item.product.name}</p>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleUpdateCartQuantity(item.product.id, item.quantity - 1)}>
-                                    <Minus className="h-3 w-3" />
-                                  </Button>
-                                  <span className="text-sm">{item.quantity}</span>
-                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleUpdateCartQuantity(item.product.id, item.quantity + 1)}>
-                                    <Plus className="h-3 w-3" />
-                                  </Button>
-                                </div>
-                              </div>
-                            </div>
-                             <div className="text-right">
-                               <p className="font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p>
-                               <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setProductToDelete(item.product.id)}>
-                                  <Trash2 className="h-4 w-4" />
-                               </Button>
-                            </div>
-                          </div>
-                        ))}
-                        <Separator />
-                        <div className="flex justify-between font-semibold">
-                          <span>Total</span>
-                          <span>${orderTotal.toFixed(2)}</span>
-                        </div>
-                         <Button className="w-full" disabled={cart.length === 0} onClick={() => setIsCheckoutConfirmOpen(true)}>
-                           Proceed to Checkout
-                         </Button>
-                      </div>
-                    )}
                   </CardContent>
                 </Card>
               </div>
