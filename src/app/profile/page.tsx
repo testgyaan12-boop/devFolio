@@ -15,6 +15,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type IssueReport = {
   id: string;
@@ -134,6 +135,42 @@ export default function ProfilePage() {
         </TabsContent>
         <TabsContent value="report" className="mt-4">
           <div className="grid gap-8">
+             <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                 <Card>
+                  <AccordionTrigger className="p-6">
+                     <CardHeader className="p-0 text-left">
+                       <CardTitle>Previous Reports</CardTitle>
+                       <CardDescription>Track the status of your submitted issues.</CardDescription>
+                    </CardHeader>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                     <CardContent className="space-y-4 pt-0">
+                      {issueHistory.length === 0 ? (
+                        <p className="text-muted-foreground text-center py-4">You have not submitted any reports.</p>
+                      ) : (
+                        issueHistory.map(report => (
+                          <Card key={report.id}>
+                            <CardContent className="p-4 flex flex-col sm:flex-row justify-between gap-4">
+                              <div className="flex-grow">
+                                <p className="text-sm text-muted-foreground">
+                                  {format(new Date(report.date), "MMMM d, yyyy 'at' h:mm a")}
+                                </p>
+                                <p className="mt-2">{report.issue}</p>
+                              </div>
+                              <div className="shrink-0 pt-2">
+                                 <Badge variant={getStatusBadgeVariant(report.status)}>{report.status}</Badge>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))
+                      )}
+                    </CardContent>
+                  </AccordionContent>
+                </Card>
+              </AccordionItem>
+            </Accordion>
+            
             <Card>
               <CardHeader>
                 <CardTitle>Submit a New Report</CardTitle>
@@ -151,34 +188,6 @@ export default function ProfilePage() {
                   />
                 </div>
                 <Button onClick={handleIssueSubmit} className="w-full">Submit Report</Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Previous Reports</CardTitle>
-                <CardDescription>Track the status of your submitted issues.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {issueHistory.length === 0 ? (
-                  <p className="text-muted-foreground text-center">You have not submitted any reports.</p>
-                ) : (
-                  issueHistory.map(report => (
-                    <Card key={report.id}>
-                      <CardContent className="p-4 flex flex-col sm:flex-row justify-between gap-4">
-                        <div className="flex-grow">
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(report.date), "MMMM d, yyyy 'at' h:mm a")}
-                          </p>
-                          <p className="mt-2">{report.issue}</p>
-                        </div>
-                        <div className="shrink-0 pt-2">
-                           <Badge variant={getStatusBadgeVariant(report.status)}>{report.status}</Badge>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                )}
               </CardContent>
             </Card>
           </div>
