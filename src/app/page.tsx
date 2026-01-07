@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat, Moon, Sun } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat, Moon, Sun, Info } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -39,6 +39,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 type Product = {
   id: number;
@@ -75,6 +82,8 @@ export default function Home() {
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [theme, setTheme] = useState('dark');
   const [activePaymentTab, setActivePaymentTab] = useState('all');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
 
   const products: Product[] = placeholderImages['order-bottles'];
 
@@ -253,6 +262,41 @@ export default function Home() {
         </AlertDialogContent>
       </AlertDialog>
 
+       <Sheet open={selectedProduct !== null} onOpenChange={(isOpen) => !isOpen && setSelectedProduct(null)}>
+        <SheetContent side="bottom" className="h-4/5">
+          {selectedProduct && (
+            <div className="flex flex-col h-full">
+              <SheetHeader className="px-4">
+                <SheetTitle>{selectedProduct.name}</SheetTitle>
+                <SheetDescription>${selectedProduct.price.toFixed(2)}</SheetDescription>
+              </SheetHeader>
+              <div className="flex-grow overflow-y-auto p-4 space-y-4">
+                <div className="relative h-64 w-full rounded-md overflow-hidden">
+                  <Image
+                    src={selectedProduct.src.replace('/300/300', '/600/600')}
+                    alt={selectedProduct.alt}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    data-ai-hint={selectedProduct.hint}
+                  />
+                </div>
+                <p className="text-muted-foreground">
+                  Introducing the {selectedProduct.name} - a perfect blend of style and purity. Ideal for personal use, corporate branding, or special events. This bottle is designed to be both durable and elegant. Customize it with your brand to make a lasting impression.
+                </p>
+              </div>
+              <div className="p-4 border-t">
+                 <Button className="w-full" onClick={() => {
+                  handleToastAndAddToCart(selectedProduct);
+                  setSelectedProduct(null);
+                }}>
+                  Add to Cart
+                </Button>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
       <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background px-4 md:px-8">
         <h1 className="text-xl font-bold text-primary">AquaBrand</h1>
         <div className="flex items-center gap-4">
@@ -419,7 +463,7 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {products.map((product) => (
-                      <Card key={product.id} className="overflow-hidden">
+                      <Card key={product.id} className="overflow-hidden flex flex-col">
                         <div className="relative h-32 w-full sm:h-48">
                           <Image
                             src={product.src}
@@ -429,8 +473,8 @@ export default function Home() {
                             data-ai-hint={product.hint}
                           />
                         </div>
-                        <div className="p-2 sm:p-4">
-                          <h3 className="text-sm sm:text-lg font-semibold truncate">{product.name}</h3>
+                        <div className="p-2 sm:p-4 flex flex-col flex-grow">
+                          <h3 className="text-sm sm:text-lg font-semibold truncate flex-grow">{product.name}</h3>
                           <p className="text-xs sm:text-sm text-muted-foreground">${product.price.toFixed(2)}</p>
                           <div className="mt-2 sm:mt-4 flex flex-col items-stretch gap-2">
                             <div className="flex items-center justify-center gap-2">
@@ -460,9 +504,14 @@ export default function Home() {
                                 <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                               </Button>
                             </div>
-                            <Button size="sm" onClick={() => handleToastAndAddToCart(product)}>
-                              Add
-                            </Button>
+                             <div className="flex items-stretch gap-2">
+                              <Button size="sm" className="flex-grow" onClick={() => handleToastAndAddToCart(product)}>
+                                Add
+                              </Button>
+                              <Button variant="outline" size="icon" className="shrink-0 md:hidden" onClick={() => setSelectedProduct(product)}>
+                                <Info className="h-4 w-4"/>
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </Card>
@@ -619,3 +668,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
