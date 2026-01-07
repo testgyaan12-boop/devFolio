@@ -33,51 +33,51 @@
   "order-bottles": [
     {
       "id": 1,
-      "name": "Classic 500ml",
-      "src": "https://picsum.photos/seed/classicbottle/300/300",
-      "alt": "Classic 500ml water bottle",
-      "hint": "water bottle",
-      "price": 0.5
+      "name": "Classic Steel 500ml",
+      "src": "https://picsum.photos/seed/steelbottle/300/300",
+      "alt": "A sleek stainless steel water bottle.",
+      "hint": "steel bottle",
+      "price": 1.5
     },
     {
       "id": 2,
-      "name": "Premium 750ml",
-      "src": "https://picsum.photos/seed/premiumbottle/300/300",
-      "alt": "Premium 750ml water bottle",
+      "name": "Premium Glass 750ml",
+      "src": "https://picsum.photos/seed/glassbottle/300/300",
+      "alt": "An elegant premium glass water bottle.",
       "hint": "glass bottle",
-      "price": 1.2
+      "price": 2.2
     },
     {
       "id": 3,
-      "name": "Sports Cap 600ml",
-      "src": "https://picsum.photos/seed/sportsbottle/300/300",
-      "alt": "Sports cap 600ml water bottle",
-      "hint": "sports bottle",
-      "price": 0.75
+      "name": "Active Sport 600ml",
+      "src": "https://picsum.photos/seed/activesport/300/300",
+      "alt": "A durable sports water bottle with a grip.",
+      "hint": "sport bottle",
+      "price": 1.75
     },
     {
       "id": 4,
-      "name": "Eco-Friendly 1L",
-      "src": "https://picsum.photos/seed/ecobottle/300/300",
-      "alt": "Eco-Friendly 1L water bottle",
+      "name": "Eco Pure 1L",
+      "src": "https://picsum.photos/seed/ecopure/300/300",
+      "alt": "A large, eco-friendly reusable water bottle.",
       "hint": "reusable bottle",
-      "price": 2.5
+      "price": 3
     },
     {
       "id": 5,
-      "name": "Kids Fun Size",
-      "src": "https://picsum.photos/seed/kidsbottle/300/300",
-      "alt": "Kids fun size water bottle",
-      "hint": "kids bottle",
-      "price": 0.4
+      "name": "Adventure Flask",
+      "src": "https://picsum.photos/seed/flask/300/300",
+      "alt": "A rugged flask for outdoor adventures.",
+      "hint": "flask bottle",
+      "price": 2.8
     },
     {
       "id": 6,
-      "name": "Infuser Bottle",
-      "src": "https://picsum.photos/seed/infuserbottle/300/300",
-      "alt": "Fruit infuser water bottle",
+      "name": "Hydrate Infuser",
+      "src": "https://picsum.photos/seed/hydrainfuser/300/300",
+      "alt": "A clear water bottle with a fruit infuser inside.",
       "hint": "infuser bottle",
-      "price": 3
+      "price": 3.5
     }
   ]
 }
