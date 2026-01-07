@@ -86,6 +86,15 @@ export default function Home() {
   
   const [activePaymentTab, setActivePaymentTab] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isLearnMoreSheetOpen, setIsLearnMoreSheetOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const products: Product[] = placeholderImages['order-bottles'];
 
@@ -218,6 +227,15 @@ export default function Home() {
     window.open(url, '_blank');
   };
 
+  const handleLearnMoreClick = () => {
+    if (isMobile) {
+      setIsLearnMoreSheetOpen(true);
+    } else {
+      // Add desktop behavior here if needed, e.g., router.push('/about-branding')
+      console.log("Desktop learn more clicked");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -295,6 +313,42 @@ export default function Home() {
         </SheetContent>
       </Sheet>
 
+      <Sheet open={isLearnMoreSheetOpen} onOpenChange={setIsLearnMoreSheetOpen}>
+        <SheetContent side="top" className="h-4/5">
+          <div className="flex flex-col h-full p-4">
+            <SheetHeader>
+              <SheetTitle>Your Brand, Our Bottles</SheetTitle>
+              <SheetDescription>Customized water bottles with your own branding.</SheetDescription>
+            </SheetHeader>
+            <div className="flex-grow overflow-y-auto mt-4 space-y-4">
+              <div className="relative h-48 w-full rounded-md overflow-hidden">
+                <Image
+                  src={placeholderImages['custom-bottle'][0].src.replace('/600/400', '/800/400')}
+                  alt={placeholderImages['custom-bottle'][0].alt}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  data-ai-hint={placeholderImages['custom-bottle'][0].hint}
+                />
+              </div>
+              <p className="text-muted-foreground">
+                We specialize in rebranding water bottles for hotels, corporate events, and businesses. Provide us with your branding, and we'll deliver high-quality, customized water bottles that make a lasting impression. Our process is simple and efficient, ensuring you get a premium product that perfectly represents your brand.
+              </p>
+              <p className="text-muted-foreground">
+                From sleek glass bottles to durable stainless steel options, we have a wide range of products to choose from. Our team will work with you to create a design that aligns with your brand identity.
+              </p>
+            </div>
+             <div className="pt-4 border-t">
+                 <Button className="w-full" onClick={() => {
+                  setIsLearnMoreSheetOpen(false);
+                  handleTabChange('product');
+                }}>
+                  Start Your Order
+                </Button>
+              </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-8">
         <div className="p-4 md:p-8 md:pb-0 pb-20">
@@ -341,7 +395,7 @@ export default function Home() {
                     We specialize in rebranding water bottles for hotels, corporate events, and businesses. Provide us with
                     your branding, and we'll deliver high-quality, customized water bottles that make a lasting impression.
                   </p>
-                  <Button>Learn More</Button>
+                  <Button onClick={handleLearnMoreClick}>Learn More</Button>
                 </CardContent>
               </Card>
 
@@ -641,5 +695,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
