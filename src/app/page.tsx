@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat, Moon, Sun, Info } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat, Moon, Sun, Info, Search, Filter } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -47,6 +47,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 type Product = {
   id: number;
@@ -90,6 +97,9 @@ export default function Home() {
   const [isLearnMoreSheetOpen, setIsLearnMoreSheetOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [brandFilter, setBrandFilter] = useState('all');
+
    const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
@@ -102,6 +112,19 @@ export default function Home() {
   }, []);
 
   const products: Product[] = placeholderImages['order-bottles'];
+
+  const brands = useMemo(() => {
+    const allBrands = products.map(p => p.name.split(' ')[0]);
+    return ['all', ...Array.from(new Set(allBrands))];
+  }, [products]);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesBrand = brandFilter === 'all' || product.name.toLowerCase().startsWith(brandFilter.toLowerCase());
+      return matchesSearch && matchesBrand;
+    });
+  }, [products, searchQuery, brandFilter]);
 
   const orderTotal = useMemo(() => {
     return cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
@@ -500,62 +523,95 @@ export default function Home() {
                   <CardHeader>
                     <CardTitle>Place a New Order</CardTitle>
                     <CardDescription>Select your desired bottles and quantities.</CardDescription>
+                     <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                      <div className="relative flex-grow">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          type="search"
+                          placeholder="Search products..."
+                          className="pl-8 w-full"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Filter className="h-4 w-4 text-muted-foreground" />
+                        <Select value={brandFilter} onValueChange={setBrandFilter}>
+                          <SelectTrigger className="w-full sm:w-[180px]">
+                            <SelectValue placeholder="Filter by brand" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {brands.map(brand => (
+                              <SelectItem key={brand} value={brand} className="capitalize">
+                                {brand === 'all' ? 'All Brands' : brand}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardContent className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {products.map((product) => (
-                      <Card key={product.id} className="overflow-hidden flex flex-col">
-                        <div className="relative h-32 w-full sm:h-48">
-                          <Image
-                            src={product.src}
-                            alt={product.alt}
-                            fill
-                            style={{ objectFit: 'cover' }}
-                            data-ai-hint={product.hint}
-                          />
-                        </div>
-                        <div className="p-2 sm:p-4 flex flex-col flex-grow">
-                          <h3 className="text-sm sm:text-lg font-semibold truncate flex-grow">{product.name}</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">${product.price.toFixed(2)}</p>
-                          <div className="mt-2 sm:mt-4 flex flex-col items-stretch gap-2">
-                            <div className="flex items-center justify-center gap-2">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                className="h-6 w-6 sm:h-8 sm:w-8"
-                                onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
-                              >
-                                <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
-                              </Button>
-                              <Input
-                                type="number"
-                                className="h-6 w-10 sm:h-8 sm:w-12 text-center"
-                                value={quantities[product.id] || 1}
-                                onChange={(e) =>
-                                  handleQuantityChange(product.id, parseInt(e.target.value, 10) || 1)
-                                }
-                                min="1"
-                              />
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                className="h-6 w-6 sm:h-8 sm:w-8"
-                                onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
-                              >
-                                <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
-                              </Button>
-                            </div>
-                             <div className="flex items-stretch gap-2">
-                              <Button size="sm" className="flex-grow" onClick={() => handleToastAndAddToCart(product)}>
-                                Add
-                              </Button>
-                              <Button variant="outline" size="icon" className="shrink-0 md:hidden" onClick={() => setSelectedProduct(product)}>
-                                <Info className="h-4 w-4"/>
-                              </Button>
+                    {filteredProducts.length > 0 ? (
+                      filteredProducts.map((product) => (
+                        <Card key={product.id} className="overflow-hidden flex flex-col">
+                          <div className="relative h-32 w-full sm:h-48">
+                            <Image
+                              src={product.src}
+                              alt={product.alt}
+                              fill
+                              style={{ objectFit: 'cover' }}
+                              data-ai-hint={product.hint}
+                            />
+                          </div>
+                          <div className="p-2 sm:p-4 flex flex-col flex-grow">
+                            <h3 className="text-sm sm:text-lg font-semibold truncate flex-grow">{product.name}</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">${product.price.toFixed(2)}</p>
+                            <div className="mt-2 sm:mt-4 flex flex-col items-stretch gap-2">
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-6 w-6 sm:h-8 sm:w-8"
+                                  onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
+                                >
+                                  <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                                </Button>
+                                <Input
+                                  type="number"
+                                  className="h-6 w-10 sm:h-8 sm:w-12 text-center"
+                                  value={quantities[product.id] || 1}
+                                  onChange={(e) =>
+                                    handleQuantityChange(product.id, parseInt(e.target.value, 10) || 1)
+                                  }
+                                  min="1"
+                                />
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-6 w-6 sm:h-8 sm:w-8"
+                                  onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
+                                >
+                                  <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                                </Button>
+                              </div>
+                               <div className="flex items-stretch gap-2">
+                                <Button size="sm" className="flex-grow" onClick={() => handleToastAndAddToCart(product)}>
+                                  Add
+                                </Button>
+                                <Button variant="outline" size="icon" className="shrink-0 md:hidden" onClick={() => setSelectedProduct(product)}>
+                                  <Info className="h-4 w-4"/>
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Card>
-                    ))}
+                        </Card>
+                      ))
+                    ) : (
+                      <div className="col-span-full text-center text-muted-foreground py-8">
+                        No products found. Try adjusting your search or filters.
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
@@ -713,3 +769,6 @@ export default function Home() {
 
     
 
+
+
+    
