@@ -47,9 +47,9 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 sm:p-8">
+    <div className="min-h-screen bg-background p-4 sm:p-8 md:pt-0">
       <header className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="icon" onClick={() => router.back()}>
+        <Button variant="outline" size="icon" onClick={() => router.push('/')}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <h1 className="text-2xl font-bold">Profile & Support</h1>

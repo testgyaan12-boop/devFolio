@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -71,19 +71,21 @@ type Order = {
 
 export default function Home() {
   const router = useRouter();
+  const pathname = usePathname();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  
   const [activeTab, setActiveTab] = useState('dashboard');
+  
   const [quantities, setQuantities] = useState<Record<number, number>>({});
   const [cart, setCart] = useState<CartItem[]>([]);
   const { toast } = useToast();
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const [isCheckoutConfirmOpen, setIsCheckoutConfirmOpen] = useState(false);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
-  const [theme, setTheme] = useState('dark');
+  
   const [activePaymentTab, setActivePaymentTab] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
 
   const products: Product[] = placeholderImages['order-bottles'];
 
@@ -102,10 +104,19 @@ export default function Home() {
   }, [orderHistory, activePaymentTab]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    if (pathname === '/') {
+      const tab = new URLSearchParams(window.location.search).get('tab');
+      setActiveTab(tab || 'dashboard');
+    }
+  }, [pathname]);
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    router.push(`/?tab=${value}`, { scroll: false });
+  };
+
+
+  useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn');
     const email = localStorage.getItem('userEmail');
     if (loggedIn !== 'true') {
@@ -127,19 +138,6 @@ export default function Home() {
       setLoading(false);
     }
   }, [router, products]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
-
-  const handleSignOut = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userEmail');
-    router.push('/login');
-  };
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity >= 1) {
@@ -208,7 +206,7 @@ export default function Home() {
     order.items.forEach(item => {
       handleAddToCart(item.product, item.quantity);
     });
-    setActiveTab('product');
+    handleTabChange('product');
     toast({
       title: 'Items Added to Cart',
       description: `All items from order #${order.id.substring(0, 8)} have been added to your cart.`,
@@ -297,33 +295,8 @@ export default function Home() {
         </SheetContent>
       </Sheet>
 
-      <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background px-4 md:px-8">
-        <h1 className="text-xl font-bold text-primary">AquaBrand</h1>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar className="cursor-pointer">
-                <AvatarImage src={undefined} alt={'User'} />
-                <AvatarFallback>
-                  <User />
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => router.push('/profile')}>Profile</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSignOut}>Sign Out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </header>
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-grow md:pt-8">
+      
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-8">
         <div className="p-4 md:p-8 md:pb-0 pb-20">
           <TabsContent value="dashboard">
             <div className="space-y-8">
