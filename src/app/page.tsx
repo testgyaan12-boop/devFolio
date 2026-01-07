@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
 import placeholderImages from '@/lib/placeholder-images.json';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -88,6 +89,10 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isLearnMoreSheetOpen, setIsLearnMoreSheetOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+   const autoplayPlugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  );
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -354,7 +359,15 @@ export default function Home() {
         <div className="p-4 md:p-8 md:pb-0 pb-20">
           <TabsContent value="dashboard">
             <div className="space-y-8">
-              <Carousel className="w-full">
+              <Carousel 
+                className="w-full"
+                plugins={[autoplayPlugin.current]}
+                onMouseEnter={autoplayPlugin.current.stop}
+                onMouseLeave={autoplayPlugin.current.reset}
+                opts={{
+                  loop: true,
+                }}
+                >
                 <CarouselContent>
                   {placeholderImages['carousel-water'].map((image, index) => (
                     <CarouselItem key={index}>
