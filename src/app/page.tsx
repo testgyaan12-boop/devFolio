@@ -21,6 +21,17 @@ import placeholderImages from '@/lib/placeholder-images.json';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from '@/components/ui/separator';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 type Product = {
   id: number;
@@ -43,6 +54,8 @@ export default function Home() {
   const [quantities, setQuantities] = useState<Record<number, number>>({});
   const [cart, setCart] = useState<CartItem[]>([]);
   const { toast } = useToast();
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
+
 
   const products: Product[] = placeholderImages['order-bottles'];
 
@@ -99,11 +112,12 @@ export default function Home() {
 
   const handleRemoveFromCart = (productId: number) => {
     setCart((prevCart) => prevCart.filter((item) => item.product.id !== productId));
+    setProductToDelete(null);
   };
   
   const handleUpdateCartQuantity = (productId: number, newQuantity: number) => {
     if (newQuantity < 1) {
-      handleRemoveFromCart(productId);
+      setProductToDelete(productId);
       return;
     }
     setCart(prevCart => prevCart.map(item => 
@@ -121,6 +135,22 @@ export default function Home() {
 
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-background">
+       <AlertDialog open={productToDelete !== null} onOpenChange={(isOpen) => !isOpen && setProductToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action will remove the item from your cart.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setProductToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => productToDelete && handleRemoveFromCart(productToDelete)}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background px-4 md:px-8">
         <div></div>
         <DropdownMenu>
@@ -301,7 +331,7 @@ export default function Home() {
                             </div>
                              <div className="text-right">
                                <p className="font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p>
-                               <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleRemoveFromCart(item.product.id)}>
+                               <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setProductToDelete(item.product.id)}>
                                   <Trash2 className="h-4 w-4" />
                                </Button>
                             </div>
