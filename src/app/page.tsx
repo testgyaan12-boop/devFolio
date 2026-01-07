@@ -728,24 +728,20 @@ export default function Home() {
                     ) : (
                       filteredPayments.map((order) => (
                         <Card key={order.id}>
-                           <CardHeader>
-                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-                               <div className="flex-grow">
-                                <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
-                                <CardDescription>{format(new Date(order.date), "MMMM d, yyyy")}</CardDescription>
-                              </div>
-                              <div className="flex items-center gap-2">
+                          <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div className="flex-grow">
+                              <p className="font-semibold">Order #{order.id.substring(0, 8)}</p>
+                              <p className="text-sm text-muted-foreground">{format(new Date(order.date), "MMMM d, yyyy")}</p>
+                            </div>
+                            <div className="flex items-center gap-4 shrink-0">
                                 <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize">
                                   {order.status === 'Delivered' ? 'Complete' : 'Pending'}
                                 </Badge>
                                 <p className="font-semibold text-lg whitespace-nowrap">₹{order.total.toFixed(2)}</p>
-                              </div>
                             </div>
-                          </CardHeader>
-                          <CardContent>
-                            <Button variant="outline" size="sm" onClick={() => handleDownloadBill(order.id)}>
-                              <Download className="mr-2 h-4 w-4" />
-                              Download Invoice
+                            <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => handleDownloadBill(order.id)}>
+                              <Download className="h-4 w-4 md:mr-2" />
+                              <span className="hidden md:inline">Download Invoice</span>
                             </Button>
                           </CardContent>
                         </Card>
@@ -799,3 +795,4 @@ export default function Home() {
 
 
     
+
