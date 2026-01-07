@@ -470,7 +470,7 @@ export default function Home() {
                   <CardTitle>Meet the Founders</CardTitle>
                   <CardDescription>The visionaries behind AquaBrand.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <CardContent className="grid grid-cols-2 gap-6">
                   {founders.map((founder) => (
                     <div key={founder.name} className="flex flex-col items-center gap-4 text-center">
                        <div className="relative h-32 w-32 rounded-full overflow-hidden shrink-0">
@@ -877,6 +877,7 @@ export default function Home() {
 
 
     
+
 
 
 
