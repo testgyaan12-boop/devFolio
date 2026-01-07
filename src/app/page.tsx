@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2 } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { format } from 'date-fns';
+import { Badge } from '@/components/ui/badge';
 
 type Product = {
   id: number;
@@ -52,19 +53,20 @@ type Order = {
   date: string;
   items: CartItem[];
   total: number;
+  status: 'Pending' | 'Delivered';
 };
 
 export default function Home() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [quantities, setQuantities] = useState<Record<number, number>>({});
   const [cart, setCart] = useState<CartItem[]>([]);
   const { toast } = useToast();
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const [isCheckoutConfirmOpen, setIsCheckoutConfirmOpen] = useState(false);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
-
 
   const products: Product[] = placeholderImages['order-bottles'];
 
@@ -107,8 +109,8 @@ export default function Home() {
     }
   };
 
-  const handleAddToCart = (product: Product) => {
-    const quantity = quantities[product.id] || 1;
+  const handleAddToCart = (product: Product, quantityToAdd?: number) => {
+    const quantity = quantityToAdd || quantities[product.id] || 1;
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.product.id === product.id);
       if (existingItem) {
@@ -119,6 +121,11 @@ export default function Home() {
         return [...prevCart, { product, quantity }];
       }
     });
+  };
+  
+  const handleToastAndAddToCart = (product: Product) => {
+    const quantity = quantities[product.id] || 1;
+    handleAddToCart(product, quantity);
     toast({
       title: 'Added to cart',
       description: `Added ${quantity} x ${product.name} to your cart.`,
@@ -146,6 +153,7 @@ export default function Home() {
       date: new Date().toISOString(),
       items: cart,
       total: orderTotal,
+      status: Math.random() > 0.5 ? 'Delivered' : 'Pending',
     };
     const updatedHistory = [newOrder, ...orderHistory];
     setOrderHistory(updatedHistory);
@@ -156,6 +164,22 @@ export default function Home() {
       title: 'Order Placed!',
       description: 'Your order has been successfully placed and moved to history.',
     });
+  };
+
+  const handleReorder = (order: Order) => {
+    order.items.forEach(item => {
+      handleAddToCart(item.product, item.quantity);
+    });
+    setActiveTab('product');
+    toast({
+      title: 'Items Added to Cart',
+      description: `All items from order #${order.id.substring(0, 8)} have been added to your cart.`,
+    });
+  };
+
+  const handleDownloadBill = (orderId: string) => {
+    const url = `/bill/${orderId}`;
+    window.open(url, '_blank');
   };
 
   if (loading) {
@@ -201,7 +225,7 @@ export default function Home() {
       </AlertDialog>
 
       <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background px-4 md:px-8">
-        <div></div>
+        <h1 className="text-xl font-bold text-primary">AquaBrand</h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
@@ -218,7 +242,7 @@ export default function Home() {
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
-      <Tabs defaultValue="dashboard" className="flex-grow md:pt-8">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-grow md:pt-8">
         <div className="p-4 md:p-8 md:pb-0 pb-20">
           <TabsContent value="dashboard">
             <div className="space-y-8">
@@ -337,7 +361,7 @@ export default function Home() {
                                 <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                               </Button>
                             </div>
-                            <Button size="sm" onClick={() => handleAddToCart(product)}>
+                            <Button size="sm" onClick={() => handleToastAndAddToCart(product)}>
                               Add
                             </Button>
                           </div>
@@ -413,15 +437,20 @@ export default function Home() {
                 ) : (
                   orderHistory.map((order) => (
                     <Card key={order.id}>
-                      <CardHeader className="flex flex-row justify-between items-center">
-                        <div>
-                          <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
-                          <CardDescription>{format(new Date(order.date), "MMMM d, yyyy 'at' h:mm a")}</CardDescription>
+                      <CardHeader>
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
+                            <CardDescription>{format(new Date(order.date), "MMMM d, yyyy 'at' h:mm a")}</CardDescription>
+                          </div>
+                          <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="ml-auto capitalize">
+                            {order.status}
+                          </Badge>
                         </div>
-                        <p className="font-semibold text-lg">${order.total.toFixed(2)}</p>
+                        <p className="font-semibold text-lg mt-2">${order.total.toFixed(2)}</p>
                       </CardHeader>
                       <CardContent>
-                        <Separator className="my-2" />
+                        <Separator className="mb-4" />
                         <div className="space-y-2">
                           {order.items.map(item => (
                              <div key={item.product.id} className="flex items-center justify-between">
@@ -438,6 +467,17 @@ export default function Home() {
                               <p className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</p>
                             </div>
                           ))}
+                        </div>
+                        <Separator className="my-4" />
+                         <div className="flex justify-end gap-2">
+                          <Button variant="outline" size="sm" onClick={() => handleReorder(order)}>
+                            <Repeat className="mr-2 h-4 w-4" />
+                            Reorder
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => handleDownloadBill(order.id)}>
+                            <Download className="mr-2 h-4 w-4" />
+                            Download Bill
+                          </Button>
                         </div>
                       </CardContent>
                     </Card>
