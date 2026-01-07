@@ -7,7 +7,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFoo
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { format } from 'date-fns';
-import { Printer } from 'lucide-react';
+import { Download } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 type Product = {
   id: number;
@@ -59,6 +61,34 @@ export default function BillPage() {
     }
     setLoading(false);
   }, [orderId, router]);
+  
+  const handleDownloadPdf = () => {
+    const input = document.getElementById('bill-content');
+    if (input) {
+      html2canvas(input, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        const width = pdfWidth;
+        const height = width / ratio;
+        
+        // If height is greater than pdfHeight, we may need to split it into multiple pages.
+        // For simplicity, we are fitting it into one page.
+        let finalHeight = height;
+        if (height > pdfHeight) {
+           finalHeight = pdfHeight;
+           console.warn("The invoice content is too long to fit on a single PDF page. It will be truncated.");
+        }
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, width, finalHeight);
+        pdf.save(`invoice-${order?.id.substring(0, 8)}.pdf`);
+      });
+    }
+  };
 
   if (loading) {
     return <div className="flex h-screen w-full items-center justify-center">Loading Bill...</div>;
@@ -70,27 +100,8 @@ export default function BillPage() {
 
   return (
     <div className="min-h-screen bg-background p-4 sm:p-8">
-       <style>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          #bill-content, #bill-content * {
-            visibility: visible;
-          }
-          #bill-content {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-          }
-          #print-button {
-            display: none;
-          }
-        }
-      `}</style>
-      <div id="bill-content">
-        <Card className="max-w-2xl mx-auto">
+      <div id="bill-content" className="bg-background">
+        <Card className="max-w-2xl mx-auto shadow-none border-0">
           <CardHeader className="text-center">
             <h1 className="text-3xl font-bold text-primary">AquaBrand</h1>
             <CardTitle className="text-2xl mt-4">Invoice</CardTitle>
@@ -145,9 +156,9 @@ export default function BillPage() {
         </Card>
       </div>
        <div id="print-button" className="max-w-2xl mx-auto mt-4 text-right">
-        <Button onClick={() => window.print()}>
-          <Printer className="mr-2 h-4 w-4" />
-          Print Invoice
+        <Button onClick={handleDownloadPdf}>
+          <Download className="mr-2 h-4 w-4" />
+          Download PDF
         </Button>
       </div>
     </div>
