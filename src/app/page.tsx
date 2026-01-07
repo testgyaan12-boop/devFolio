@@ -473,16 +473,18 @@ export default function Home() {
                   orderHistory.map((order) => (
                     <Card key={order.id}>
                       <CardHeader>
-                        <div className="flex justify-between items-start">
-                          <div>
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                          <div className="flex-grow">
                             <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
                             <CardDescription>{format(new Date(order.date), "MMMM d, yyyy 'at' h:mm a")}</CardDescription>
                           </div>
-                          <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="ml-auto capitalize">
-                            {order.status}
-                          </Badge>
+                           <div className="flex items-center gap-2">
+                            <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize shrink-0">
+                              {order.status}
+                            </Badge>
+                            <p className="font-semibold text-lg whitespace-nowrap">${order.total.toFixed(2)}</p>
+                          </div>
                         </div>
-                        <p className="font-semibold text-lg mt-2">${order.total.toFixed(2)}</p>
                       </CardHeader>
                       <CardContent>
                         <Separator className="mb-4" />
@@ -504,7 +506,7 @@ export default function Home() {
                           ))}
                         </div>
                         <Separator className="my-4" />
-                         <div className="flex justify-end gap-2">
+                         <div className="flex flex-col sm:flex-row sm:justify-end gap-2">
                           <Button variant="outline" size="sm" onClick={() => handleReorder(order)}>
                             <Repeat className="mr-2 h-4 w-4" />
                             Reorder
