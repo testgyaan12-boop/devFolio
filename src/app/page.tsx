@@ -1,68 +1,83 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LayoutDashboard, ShoppingCart, History, CreditCard } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background p-4 md:p-8">
-      <Tabs defaultValue="dashboard" className="w-full max-w-4xl">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="order">Order</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
-          <TabsTrigger value="payment">Payment</TabsTrigger>
+    <div className="relative flex min-h-screen w-full flex-col bg-background">
+      <Tabs defaultValue="dashboard" className="flex-grow md:pt-8">
+        <div className="p-4 md:p-8 md:pb-0 pb-20">
+          <TabsContent value="dashboard">
+            <Card>
+              <CardHeader>
+                <CardTitle>Dashboard</CardTitle>
+                <CardDescription>
+                  This is the dashboard tab.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Dashboard content goes here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="order">
+            <Card>
+              <CardHeader>
+                <CardTitle>Order</CardTitle>
+                <CardDescription>
+                  This is the order tab.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Order management content goes here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="history">
+            <Card>
+              <CardHeader>
+                <CardTitle>History</CardTitle>
+                <CardDescription>
+                  This is the history tab.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Transaction history content goes here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="payment">
+            <Card>
+              <CardHeader>
+                <CardTitle>Payment</CardTitle>
+                <CardDescription>
+                  This is the payment tab.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>Payment processing content goes here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </div>
+        <TabsList className="fixed bottom-0 left-0 right-0 z-10 grid h-16 w-full grid-cols-4 rounded-none border-t bg-background md:relative md:h-10 md:w-full md:max-w-4xl md:mx-auto md:border-t-0">
+          <TabsTrigger value="dashboard" className="flex flex-col gap-1 h-full md:flex-row md:h-auto rounded-none data-[state=active]:border-t-2 md:data-[state=active]:border-t-0 md:data-[state=active]:border-b-2 border-primary">
+            <LayoutDashboard className="h-5 w-5" />
+            <span className="text-xs md:text-sm">Dashboard</span>
+          </TabsTrigger>
+          <TabsTrigger value="order" className="flex flex-col gap-1 h-full md:flex-row md:h-auto rounded-none data-[state=active]:border-t-2 md:data-[state=active]:border-t-0 md:data-[state=active]:border-b-2 border-primary">
+            <ShoppingCart className="h-5 w-5" />
+            <span className="text-xs md:text-sm">Order</span>
+          </TabsTrigger>
+          <TabsTrigger value="history" className="flex flex-col gap-1 h-full md:flex-row md:h-auto rounded-none data-[state=active]:border-t-2 md:data-[state=active]:border-t-0 md:data-[state=active]:border-b-2 border-primary">
+            <History className="h-5 w-5" />
+            <span className="text-xs md:text-sm">History</span>
+          </TabsTrigger>
+          <TabsTrigger value="payment" className="flex flex-col gap-1 h-full md:flex-row md:h-auto rounded-none data-[state=active]:border-t-2 md:data-[state=active]:border-t-0 md:data-[state=active]:border-b-2 border-primary">
+            <CreditCard className="h-5 w-5" />
+            <span className="text-xs md:text-sm">Payment</span>
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="dashboard">
-          <Card>
-            <CardHeader>
-              <CardTitle>Dashboard</CardTitle>
-              <CardDescription>
-                This is the dashboard tab.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <p>Dashboard content goes here.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="order">
-           <Card>
-            <CardHeader>
-              <CardTitle>Order</CardTitle>
-              <CardDescription>
-                This is the order tab.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <p>Order management content goes here.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="history">
-           <Card>
-            <CardHeader>
-              <CardTitle>History</CardTitle>
-              <CardDescription>
-                This is the history tab.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <p>Transaction history content goes here.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="payment">
-           <Card>
-            <CardHeader>
-              <CardTitle>Payment</CardTitle>
-              <CardDescription>
-                This is the payment tab.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <p>Payment processing content goes here.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
     </div>
   );
