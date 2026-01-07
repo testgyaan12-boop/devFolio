@@ -79,5 +79,12 @@
       "hint": "Tata drink",
       "price": 3.5
     }
+  ],
+  "founder": [
+    {
+      "src": "https://picsum.photos/seed/founder/400/400",
+      "alt": "Founder of AquaBrand",
+      "hint": "founder portrait"
+    }
   ]
 }

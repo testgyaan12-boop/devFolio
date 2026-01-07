@@ -105,6 +105,7 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [brandFilter, setBrandFilter] = useState('all');
+  const [isFounderSheetOpen, setIsFounderSheetOpen] = useState(false);
 
    const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
@@ -383,6 +384,36 @@ export default function Home() {
         </SheetContent>
       </Sheet>
 
+      <Sheet open={isFounderSheetOpen} onOpenChange={setIsFounderSheetOpen}>
+        <SheetContent side="top" className="h-4/5">
+          <div className="flex flex-col h-full p-4">
+            <SheetHeader>
+              <SheetTitle>Meet Our Founder</SheetTitle>
+              <SheetDescription>The vision behind AquaBrand.</SheetDescription>
+            </SheetHeader>
+            <div className="flex-grow overflow-y-auto mt-4 space-y-4">
+              <div className="relative h-64 w-full rounded-md overflow-hidden">
+                <Image
+                   src={placeholderImages.founder[0].src.replace('/400/400', '/800/600')}
+                   alt={placeholderImages.founder[0].alt}
+                  fill
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                   data-ai-hint={placeholderImages.founder[0].hint}
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-center pt-2">Alex Aqua</h3>
+              <p className="text-muted-foreground text-center -mt-3">Founder & CEO</p>
+              <p className="text-muted-foreground">
+                Alex has always been passionate about sustainability and design. With a vision to reduce single-use plastic, Alex founded AquaBrand to provide a stylish and eco-friendly alternative for hydration. His mission is to empower businesses and individuals to make a positive impact on the environment, one custom bottle at a time.
+              </p>
+               <p className="text-muted-foreground">
+                Under Alex's leadership, AquaBrand has grown from a small startup to a leading provider of custom-branded water bottles, trusted by hotels, corporations, and event organizers worldwide.
+              </p>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-8">
         <div className="p-4 md:p-8 md:pb-0 pb-20">
@@ -417,6 +448,35 @@ export default function Home() {
                 <CarouselPrevious className="hidden md:flex" />
                 <CarouselNext className="hidden md:flex" />
               </Carousel>
+              
+               <Card>
+                <CardHeader>
+                  <CardTitle>Meet the Founder</CardTitle>
+                  <CardDescription>The visionary behind AquaBrand.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex flex-col sm:flex-row items-center gap-4">
+                     <div className="relative h-32 w-32 rounded-full overflow-hidden shrink-0">
+                      <Image
+                        src={placeholderImages.founder[0].src}
+                        alt={placeholderImages.founder[0].alt}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        data-ai-hint={placeholderImages.founder[0].hint}
+                      />
+                    </div>
+                    <div className="text-center sm:text-left">
+                       <h3 className="text-lg font-semibold">Alex Aqua</h3>
+                       <p className="text-muted-foreground">
+                        With a passion for sustainability and design, Alex founded AquaBrand to provide stylish, eco-friendly hydration solutions.
+                      </p>
+                      <Button variant="link" className="p-0 h-auto mt-2" onClick={() => setIsFounderSheetOpen(true)}>
+                        Learn More
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
               <Card>
                 <CardHeader>
@@ -795,4 +855,5 @@ export default function Home() {
 
 
     
+
 
