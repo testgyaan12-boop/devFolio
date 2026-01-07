@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/firebase';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LayoutDashboard, ShoppingCart, History, CreditCard, User } from 'lucide-react';
@@ -15,31 +14,36 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { auth } from '@/firebase/config';
-import { signOut } from 'firebase/auth';
 
 export default function Home() {
-  const { user, loading } = useUser();
   const router = useRouter();
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!loading && !user) {
+    const loggedIn = localStorage.getItem('isLoggedIn');
+    const email = localStorage.getItem('userEmail');
+    if (loggedIn !== 'true') {
       router.push('/login');
+    } else {
+      setUserEmail(email);
+      setLoading(false);
     }
-  }, [user, loading, router]);
+  }, [router]);
+  
+  const handleSignOut = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
+    router.push('/login');
+  };
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <p>Loading...</p>
       </div>
     );
   }
-
-  const handleSignOut = async () => {
-    await signOut(auth);
-    router.push('/login');
-  };
 
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-background">
@@ -48,14 +52,14 @@ export default function Home() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
-              <AvatarImage src={user.photoURL ?? undefined} alt={user.displayName ?? 'User'} />
+              <AvatarImage src={undefined} alt={'User'} />
               <AvatarFallback>
                 <User />
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{user.displayName}</DropdownMenuLabel>
+            <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut}>Sign Out</DropdownMenuItem>
           </DropdownMenuContent>

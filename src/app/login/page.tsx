@@ -2,49 +2,52 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { auth } from '@/firebase/config';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
-  const { user, loading } = useUser();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const { toast } = useToast();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) {
+    const loggedIn = localStorage.getItem('isLoggedIn');
+    if (loggedIn === 'true') {
+      setIsLoggedIn(true);
       router.push('/');
     }
-  }, [user, loading, router]);
+  }, [router]);
 
-  const handleAuthAction = async () => {
-    try {
-      if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
-        toast({ title: 'Account created!', description: "You've been successfully signed up." });
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-      }
+  const handleAuthAction = () => {
+    if (isSignUp) {
+      // Dummy sign up
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('isLoggedIn', 'true');
+      toast({ title: 'Account created!', description: "You've been successfully signed up." });
       router.push('/');
-    } catch (error: any) {
-      console.error(`Error ${isSignUp ? 'signing up' : 'signing in'}: `, error);
-      toast({
-        variant: 'destructive',
-        title: 'Authentication Failed',
-        description: error.message || `Could not ${isSignUp ? 'sign up' : 'sign in'}. Please try again.`,
-      });
+    } else {
+      // Dummy login
+      if (password === 'password') {
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('isLoggedIn', 'true');
+        router.push('/');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Authentication Failed',
+          description: 'Invalid password. Use "password".',
+        });
+      }
     }
   };
-
-  if (loading || user) {
+  
+  if (isLoggedIn) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <p>Loading...</p>
@@ -58,7 +61,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>{isSignUp ? 'Sign Up' : 'Login'}</CardTitle>
           <CardDescription>
-            {isSignUp ? 'Create an account to get started.' : 'Sign in to access your dashboard.'}
+            {isSignUp ? 'Create a dummy account to get started.' : 'Sign in to access your dashboard. (Hint: password is "password")'}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
