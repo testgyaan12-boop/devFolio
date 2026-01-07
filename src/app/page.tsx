@@ -74,12 +74,23 @@ export default function Home() {
   const [isCheckoutConfirmOpen, setIsCheckoutConfirmOpen] = useState(false);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [theme, setTheme] = useState('dark');
+  const [activePaymentTab, setActivePaymentTab] = useState('all');
 
   const products: Product[] = placeholderImages['order-bottles'];
 
   const orderTotal = useMemo(() => {
     return cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
   }, [cart]);
+
+  const filteredPayments = useMemo(() => {
+    if (activePaymentTab === 'pending') {
+      return orderHistory.filter(order => order.status === 'Pending');
+    }
+    if (activePaymentTab === 'complete') {
+      return orderHistory.filter(order => order.status === 'Delivered');
+    }
+    return orderHistory;
+  }, [orderHistory, activePaymentTab]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -526,11 +537,49 @@ export default function Home() {
           <TabsContent value="payment">
             <Card>
               <CardHeader>
-                <CardTitle>Payment</CardTitle>
-                <CardDescription>This is the payment tab.</CardDescription>
+                <CardTitle>Payment Status</CardTitle>
+                <CardDescription>View your pending and completed payments.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <p>Payment processing content goes here.</p>
+              <CardContent>
+                <Tabs value={activePaymentTab} onValueChange={setActivePaymentTab}>
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="all">All</TabsTrigger>
+                    <TabsTrigger value="pending">Pending</TabsTrigger>
+                    <TabsTrigger value="complete">Complete</TabsTrigger>
+                  </TabsList>
+                  <div className="mt-4 space-y-4">
+                    {filteredPayments.length === 0 ? (
+                      <p className="text-muted-foreground text-center py-8">
+                        No payments in this category.
+                      </p>
+                    ) : (
+                      filteredPayments.map((order) => (
+                        <Card key={order.id}>
+                           <CardHeader>
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                               <div className="flex-grow">
+                                <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
+                                <CardDescription>{format(new Date(order.date), "MMMM d, yyyy")}</CardDescription>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize">
+                                  {order.status === 'Delivered' ? 'Complete' : 'Pending'}
+                                </Badge>
+                                <p className="font-semibold text-lg whitespace-nowrap">${order.total.toFixed(2)}</p>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <Button variant="outline" size="sm" onClick={() => handleDownloadBill(order.id)}>
+                              <Download className="mr-2 h-4 w-4" />
+                              Download Invoice
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      ))
+                    )}
+                  </div>
+                </Tabs>
               </CardContent>
             </Card>
           </TabsContent>
