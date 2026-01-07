@@ -83,6 +83,15 @@ type Order = {
   status: 'Pending' | 'Delivered';
 };
 
+type Founder = {
+  name: string;
+  title: string;
+  bio: string;
+  src: string;
+  alt: string;
+  hint: string;
+};
+
 export default function Home() {
   const router = useRouter();
   const pathname = usePathname();
@@ -106,6 +115,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [brandFilter, setBrandFilter] = useState('all');
   const [isFounderSheetOpen, setIsFounderSheetOpen] = useState(false);
+  const [selectedFounder, setSelectedFounder] = useState<Founder | null>(null);
 
    const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
@@ -119,6 +129,7 @@ export default function Home() {
   }, []);
 
   const products: Product[] = placeholderImages['order-bottles'];
+  const founders: Founder[] = placeholderImages.founder;
 
   const brands = useMemo(() => {
     const allBrands = products.map(p => p.name.split(' ')[0]);
@@ -272,6 +283,11 @@ export default function Home() {
     }
   };
 
+  const handleFounderClick = (founder: Founder) => {
+    setSelectedFounder(founder);
+    setIsFounderSheetOpen(true);
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -385,33 +401,32 @@ export default function Home() {
         </SheetContent>
       </Sheet>
 
-      <Sheet open={isFounderSheetOpen} onOpenChange={setIsFounderSheetOpen}>
+      <Sheet open={isFounderSheetOpen} onOpenChange={(isOpen) => { if (!isOpen) setSelectedFounder(null); setIsFounderSheetOpen(isOpen);}}>
         <SheetContent side="top" className="h-4/5">
-          <div className="flex flex-col h-full p-4">
-            <SheetHeader>
-              <SheetTitle>Meet Our Founder</SheetTitle>
-              <SheetDescription>The vision behind AquaBrand.</SheetDescription>
-            </SheetHeader>
-            <div className="flex-grow overflow-y-auto mt-4 space-y-4">
-              <div className="relative h-64 w-full rounded-md overflow-hidden">
-                <Image
-                   src={placeholderImages.founder[0].src.replace('/400/400', '/800/600')}
-                   alt={placeholderImages.founder[0].alt}
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'center' }}
-                   data-ai-hint={placeholderImages.founder[0].hint}
-                />
+          {selectedFounder && (
+            <div className="flex flex-col h-full p-4">
+              <SheetHeader>
+                <SheetTitle>Meet {selectedFounder.name}</SheetTitle>
+                <SheetDescription>The vision behind AquaBrand.</SheetDescription>
+              </SheetHeader>
+              <div className="flex-grow overflow-y-auto mt-4 space-y-4">
+                <div className="relative h-64 w-full rounded-md overflow-hidden">
+                  <Image
+                    src={selectedFounder.src.replace('/400/400', '/800/600')}
+                    alt={selectedFounder.alt}
+                    fill
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                    data-ai-hint={selectedFounder.hint}
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-center pt-2">{selectedFounder.name}</h3>
+                <p className="text-muted-foreground text-center -mt-3">{selectedFounder.title}</p>
+                <p className="text-muted-foreground">
+                  {selectedFounder.bio}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-center pt-2">Alex Aqua</h3>
-              <p className="text-muted-foreground text-center -mt-3">Founder & CEO</p>
-              <p className="text-muted-foreground">
-                Alex has always been passionate about sustainability and design. With a vision to reduce single-use plastic, Alex founded AquaBrand to provide a stylish and eco-friendly alternative for hydration. His mission is to empower businesses and individuals to make a positive impact on the environment, one custom bottle at a time.
-              </p>
-               <p className="text-muted-foreground">
-                Under Alex's leadership, AquaBrand has grown from a small startup to a leading provider of custom-branded water bottles, trusted by hotels, corporations, and event organizers worldwide.
-              </p>
             </div>
-          </div>
+          )}
         </SheetContent>
       </Sheet>
 
@@ -452,30 +467,30 @@ export default function Home() {
               
                <Card>
                 <CardHeader>
-                  <CardTitle>Meet the Founder</CardTitle>
-                  <CardDescription>The visionary behind AquaBrand.</CardDescription>
+                  <CardTitle>Meet the Founders</CardTitle>
+                  <CardDescription>The visionaries behind AquaBrand.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                     <div className="relative h-32 w-32 rounded-full overflow-hidden shrink-0">
-                      <Image
-                        src={placeholderImages.founder[0].src}
-                        alt={placeholderImages.founder[0].alt}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        data-ai-hint={placeholderImages.founder[0].hint}
-                      />
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {founders.map((founder) => (
+                    <div key={founder.name} className="flex flex-col items-center gap-4 text-center">
+                       <div className="relative h-32 w-32 rounded-full overflow-hidden shrink-0">
+                        <Image
+                          src={founder.src}
+                          alt={founder.alt}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          data-ai-hint={founder.hint}
+                        />
+                      </div>
+                      <div>
+                         <h3 className="text-lg font-semibold">{founder.name}</h3>
+                         <p className="text-sm text-muted-foreground">{founder.title}</p>
+                        <Button variant="link" className="p-0 h-auto mt-2" onClick={() => handleFounderClick(founder)}>
+                          Learn More
+                        </Button>
+                      </div>
                     </div>
-                    <div className="text-center sm:text-left">
-                       <h3 className="text-lg font-semibold">Alex Aqua</h3>
-                       <p className="text-muted-foreground">
-                        With a passion for sustainability and design, Alex founded AquaBrand to provide stylish, eco-friendly hydration solutions.
-                      </p>
-                      <Button variant="link" className="p-0 h-auto mt-2" onClick={() => setIsFounderSheetOpen(true)}>
-                        Learn More
-                      </Button>
-                    </div>
-                  </div>
+                  ))}
                 </CardContent>
               </Card>
 
@@ -862,6 +877,7 @@ export default function Home() {
 
 
     
+
 
 
 
