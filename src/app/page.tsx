@@ -30,8 +30,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { format } from 'date-fns';
 
 type Product = {
   id: number;
@@ -47,6 +47,13 @@ type CartItem = {
   quantity: number;
 };
 
+type Order = {
+  id: string;
+  date: string;
+  items: CartItem[];
+  total: number;
+};
+
 export default function Home() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -55,6 +62,8 @@ export default function Home() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const { toast } = useToast();
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
+  const [isCheckoutConfirmOpen, setIsCheckoutConfirmOpen] = useState(false);
+  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
 
 
   const products: Product[] = placeholderImages['order-bottles'];
@@ -70,13 +79,19 @@ export default function Home() {
       router.push('/login');
     } else {
       setUserEmail(email);
-      setLoading(false);
-
+      
       const initialQuantities: Record<number, number> = {};
       products.forEach((p) => {
         initialQuantities[p.id] = 1;
       });
       setQuantities(initialQuantities);
+
+      const savedHistory = localStorage.getItem('orderHistory');
+      if (savedHistory) {
+        setOrderHistory(JSON.parse(savedHistory));
+      }
+      
+      setLoading(false);
     }
   }, [router, products]);
 
@@ -125,6 +140,24 @@ export default function Home() {
     ));
   };
 
+  const handleCheckout = () => {
+    const newOrder: Order = {
+      id: new Date().toISOString(),
+      date: new Date().toISOString(),
+      items: cart,
+      total: orderTotal,
+    };
+    const updatedHistory = [newOrder, ...orderHistory];
+    setOrderHistory(updatedHistory);
+    localStorage.setItem('orderHistory', JSON.stringify(updatedHistory));
+    setCart([]);
+    setIsCheckoutConfirmOpen(false);
+    toast({
+      title: 'Order Placed!',
+      description: 'Your order has been successfully placed and moved to history.',
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -151,6 +184,22 @@ export default function Home() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <AlertDialog open={isCheckoutConfirmOpen} onOpenChange={setIsCheckoutConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Your Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to place this order? This will move the items to your order history.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleCheckout}>Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background px-4 md:px-8">
         <div></div>
         <DropdownMenu>
@@ -342,7 +391,7 @@ export default function Home() {
                           <span>Total</span>
                           <span>${orderTotal.toFixed(2)}</span>
                         </div>
-                         <Button className="w-full" disabled={cart.length === 0}>
+                         <Button className="w-full" disabled={cart.length === 0} onClick={() => setIsCheckoutConfirmOpen(true)}>
                            Proceed to Checkout
                          </Button>
                       </div>
@@ -355,11 +404,45 @@ export default function Home() {
           <TabsContent value="history">
             <Card>
               <CardHeader>
-                <CardTitle>History</CardTitle>
-                <CardDescription>This is the history tab.</CardDescription>
+                <CardTitle>Order History</CardTitle>
+                <CardDescription>Here are your past orders.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <p>Transaction history content goes here.</p>
+              <CardContent className="space-y-4">
+                {orderHistory.length === 0 ? (
+                  <p className="text-muted-foreground text-center">You have no past orders.</p>
+                ) : (
+                  orderHistory.map((order) => (
+                    <Card key={order.id}>
+                      <CardHeader className="flex flex-row justify-between items-center">
+                        <div>
+                          <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
+                          <CardDescription>{format(new Date(order.date), "MMMM d, yyyy 'at' h:mm a")}</CardDescription>
+                        </div>
+                        <p className="font-semibold text-lg">${order.total.toFixed(2)}</p>
+                      </CardHeader>
+                      <CardContent>
+                        <Separator className="my-2" />
+                        <div className="space-y-2">
+                          {order.items.map(item => (
+                             <div key={item.product.id} className="flex items-center justify-between">
+                              <div className="flex items-center gap-4">
+                                <Avatar className="rounded-md">
+                                  <AvatarImage src={item.product.src} alt={item.product.alt}/>
+                                  <AvatarFallback>{item.product.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                  <p className="font-medium">{item.product.name}</p>
+                                  <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
+                                </div>
+                              </div>
+                              <p className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
+                )}
               </CardContent>
             </Card>
           </TabsContent>
