@@ -207,7 +207,7 @@ export default function Home() {
               </Card>
             </div>
           </TabsContent>
-          <TabsContent value="order">
+          <TabsContent value="product">
             <div className="grid gap-8 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <Card>
@@ -354,11 +354,11 @@ export default function Home() {
             <span className="text-xs md:text-sm">Dashboard</span>
           </TabsTrigger>
           <TabsTrigger
-            value="order"
+            value="product"
             className="flex flex-col gap-1 h-full md:flex-row md:h-auto rounded-none data-[state=active]:border-t-2 md:data-[state=active]:border-t-0 md:data-[state=active]:border-b-2 border-primary"
           >
             <ShoppingCart className="h-5 w-5" />
-            <span className="text-xs md:text-sm">Order</span>
+            <span className="text-xs md:text-sm">Product</span>
           </TabsTrigger>
           <TabsTrigger
             value="history"
