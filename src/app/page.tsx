@@ -15,6 +15,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuPortal
 } from '@/components/ui/dropdown-menu';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -523,7 +529,7 @@ export default function Home() {
                   <CardHeader>
                     <CardTitle>Place a New Order</CardTitle>
                     <CardDescription>Select your desired bottles and quantities.</CardDescription>
-                     <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                     <div className="flex items-center gap-4 pt-4">
                       <div className="relative flex-grow">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -534,9 +540,30 @@ export default function Home() {
                           onChange={(e) => setSearchQuery(e.target.value)}
                         />
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Filter className="h-4 w-4 text-muted-foreground" />
-                        <Select value={brandFilter} onValueChange={setBrandFilter}>
+                      <div className="sm:hidden">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="icon">
+                              <Filter className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuPortal>
+                             <DropdownMenuContent align="end">
+                               <DropdownMenuLabel>Filter by brand</DropdownMenuLabel>
+                               <DropdownMenuSeparator />
+                               <DropdownMenuRadioGroup value={brandFilter} onValueChange={setBrandFilter}>
+                                {brands.map(brand => (
+                                  <DropdownMenuRadioItem key={brand} value={brand} className="capitalize">
+                                    {brand === 'all' ? 'All Brands' : brand}
+                                  </DropdownMenuRadioItem>
+                                ))}
+                              </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenuPortal>
+                        </DropdownMenu>
+                      </div>
+                      <div className="hidden sm:flex items-center gap-2">
+                         <Select value={brandFilter} onValueChange={setBrandFilter}>
                           <SelectTrigger className="w-full sm:w-[180px]">
                             <SelectValue placeholder="Filter by brand" />
                           </SelectTrigger>
