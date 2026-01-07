@@ -268,6 +268,7 @@ export default function Home() {
     } else {
       // Add desktop behavior here if needed, e.g., router.push('/about-branding')
       console.log("Desktop learn more clicked");
+       setIsLearnMoreSheetOpen(true);
     }
   };
 
@@ -641,7 +642,11 @@ export default function Home() {
                   <CardContent className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {filteredProducts.length > 0 ? (
                       filteredProducts.map((product) => (
-                        <Card key={product.id} className="overflow-hidden flex flex-col">
+                        <Card 
+                          key={product.id} 
+                          className="overflow-hidden flex flex-col cursor-pointer"
+                          onClick={() => isMobile && setSelectedProduct(product)}
+                        >
                           <div className="relative h-32 w-full sm:h-48">
                             <Image
                               src={product.src}
@@ -660,7 +665,7 @@ export default function Home() {
                                   variant="outline"
                                   size="icon"
                                   className="h-6 w-6 sm:h-8 sm:w-8"
-                                  onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
+                                  onClick={(e) => { e.stopPropagation(); handleQuantityChange(product.id, (quantities[product.id] || 1) - 1); }}
                                 >
                                   <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
@@ -668,25 +673,27 @@ export default function Home() {
                                   type="number"
                                   className="h-6 w-10 sm:h-8 sm:w-12 text-center"
                                   value={quantities[product.id] || 1}
-                                  onChange={(e) =>
-                                    handleQuantityChange(product.id, parseInt(e.target.value, 10) || 1)
-                                  }
+                                  onChange={(e) => {
+                                    e.stopPropagation();
+                                    handleQuantityChange(product.id, parseInt(e.target.value, 10) || 1);
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
                                   min="1"
                                 />
                                 <Button
                                   variant="outline"
                                   size="icon"
                                   className="h-6 w-6 sm:h-8 sm:w-8"
-                                  onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
+                                  onClick={(e) => { e.stopPropagation(); handleQuantityChange(product.id, (quantities[product.id] || 1) + 1); }}
                                 >
                                   <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                               </div>
                                <div className="flex items-stretch gap-2">
-                                <Button size="sm" className="flex-grow" onClick={() => handleToastAndAddToCart(product)}>
+                                <Button size="sm" className="flex-grow" onClick={(e) => { e.stopPropagation(); handleToastAndAddToCart(product); }}>
                                   Add
                                 </Button>
-                                <Button variant="outline" size="icon" className="shrink-0 md:hidden" onClick={() => setSelectedProduct(product)}>
+                                <Button variant="outline" size="icon" className="shrink-0 hidden md:flex" onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}>
                                   <Info className="h-4 w-4"/>
                                 </Button>
                               </div>
@@ -855,5 +862,6 @@ export default function Home() {
 
 
     
+
 
 
