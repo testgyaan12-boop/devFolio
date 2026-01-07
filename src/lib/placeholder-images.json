@@ -36,21 +36,48 @@
       "name": "Classic 500ml",
       "src": "https://picsum.photos/seed/classicbottle/300/300",
       "alt": "Classic 500ml water bottle",
-      "hint": "water bottle"
+      "hint": "water bottle",
+      "price": 0.5
     },
     {
       "id": 2,
       "name": "Premium 750ml",
       "src": "https://picsum.photos/seed/premiumbottle/300/300",
       "alt": "Premium 750ml water bottle",
-      "hint": "glass bottle"
+      "hint": "glass bottle",
+      "price": 1.2
     },
     {
       "id": 3,
       "name": "Sports Cap 600ml",
       "src": "https://picsum.photos/seed/sportsbottle/300/300",
       "alt": "Sports cap 600ml water bottle",
-      "hint": "sports bottle"
+      "hint": "sports bottle",
+      "price": 0.75
+    },
+    {
+      "id": 4,
+      "name": "Eco-Friendly 1L",
+      "src": "https://picsum.photos/seed/ecobottle/300/300",
+      "alt": "Eco-Friendly 1L water bottle",
+      "hint": "reusable bottle",
+      "price": 2.5
+    },
+    {
+      "id": 5,
+      "name": "Kids Fun Size",
+      "src": "https://picsum.photos/seed/kidsbottle/300/300",
+      "alt": "Kids fun size water bottle",
+      "hint": "kids bottle",
+      "price": 0.4
+    },
+    {
+      "id": 6,
+      "name": "Infuser Bottle",
+      "src": "https://picsum.photos/seed/infuserbottle/300/300",
+      "alt": "Fruit infuser water bottle",
+      "hint": "infuser bottle",
+      "price": 3
     }
   ]
 }
