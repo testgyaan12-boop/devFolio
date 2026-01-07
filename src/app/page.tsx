@@ -273,6 +273,7 @@ export default function Home() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => router.push('/profile')}>Profile</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>Sign Out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
