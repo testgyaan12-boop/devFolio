@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, ShoppingCart, History, CreditCard, User } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -18,11 +18,25 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import placeholderImages from '@/lib/placeholder-images.json';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+
+type Product = {
+  id: number;
+  name: string;
+  src: string;
+  alt: string;
+  hint: string;
+};
 
 export default function Home() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [quantities, setQuantities] = useState<Record<number, number>>({});
+  const { toast } = useToast();
+
+  const products: Product[] = placeholderImages['order-bottles'];
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn');
@@ -32,6 +46,12 @@ export default function Home() {
     } else {
       setUserEmail(email);
       setLoading(false);
+      
+      const initialQuantities: Record<number, number> = {};
+      products.forEach(p => {
+        initialQuantities[p.id] = 1;
+      });
+      setQuantities(initialQuantities);
     }
   }, [router]);
   
@@ -39,6 +59,19 @@ export default function Home() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userEmail');
     router.push('/login');
+  };
+
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    if (newQuantity >= 1) {
+      setQuantities(prev => ({ ...prev, [productId]: newQuantity }));
+    }
+  };
+
+  const handleAddToOrder = (productName: string, quantity: number) => {
+    toast({
+      title: 'Order Updated',
+      description: `Added ${quantity} x ${productName} to your order.`,
+    });
   };
 
   if (loading) {
@@ -142,11 +175,56 @@ export default function Home() {
           <TabsContent value="order">
             <Card>
               <CardHeader>
-                <CardTitle>Order</CardTitle>
-                <CardDescription>This is the order tab.</CardDescription>
+                <CardTitle>Place a New Order</CardTitle>
+                <CardDescription>Select your desired bottles and quantities.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <p>Order management content goes here.</p>
+              <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {products.map((product) => (
+                  <Card key={product.id} className="overflow-hidden">
+                     <div className="relative h-48 w-full">
+                      <Image
+                        src={product.src}
+                        alt={product.alt}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        data-ai-hint={product.hint}
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold">{product.name}</h3>
+                      <div className="mt-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                           <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
+                           >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <Input
+                            type="number"
+                            className="h-8 w-16 text-center"
+                            value={quantities[product.id] || 1}
+                            onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value, 10) || 1)}
+                            min="1"
+                          />
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
+                           >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                         <Button onClick={() => handleAddToOrder(product.name, quantities[product.id] || 1)}>
+                          Add
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </CardContent>
             </Card>
           </TabsContent>

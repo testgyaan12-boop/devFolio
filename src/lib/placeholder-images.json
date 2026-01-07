@@ -29,5 +29,28 @@
       "alt": "Refreshing water splash.",
       "hint": "water splash"
     }
+  ],
+  "order-bottles": [
+    {
+      "id": 1,
+      "name": "Classic 500ml",
+      "src": "https://picsum.photos/seed/classicbottle/300/300",
+      "alt": "Classic 500ml water bottle",
+      "hint": "water bottle"
+    },
+    {
+      "id": 2,
+      "name": "Premium 750ml",
+      "src": "https://picsum.photos/seed/premiumbottle/300/300",
+      "alt": "Premium 750ml water bottle",
+      "hint": "glass bottle"
+    },
+    {
+      "id": 3,
+      "name": "Sports Cap 600ml",
+      "src": "https://picsum.photos/seed/sportsbottle/300/300",
+      "alt": "Sports cap 600ml water bottle",
+      "hint": "sports bottle"
+    }
   ]
 }
