@@ -517,14 +517,14 @@ export default function Home() {
                           ))}
                         </div>
                         <Separator className="my-4" />
-                         <div className="flex flex-col sm:flex-row sm:justify-end gap-2">
+                         <div className="flex flex-row justify-end gap-2">
                           <Button variant="outline" size="sm" onClick={() => handleReorder(order)}>
-                            <Repeat className="mr-2 h-4 w-4" />
-                            Reorder
+                            <Repeat className="h-4 w-4 md:mr-2" />
+                            <span className="hidden md:inline">Reorder</span>
                           </Button>
                           <Button variant="outline" size="sm" onClick={() => handleDownloadBill(order.id)}>
-                            <Download className="mr-2 h-4 w-4" />
-                            Download Bill
+                            <Download className="h-4 w-4 md:mr-2" />
+                            <span className="hidden md:inline">Download Bill</span>
                           </Button>
                         </div>
                       </CardContent>
