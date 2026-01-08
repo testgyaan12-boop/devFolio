@@ -352,7 +352,7 @@ export default function Home() {
       </AlertDialog>
 
        <Sheet open={selectedProduct !== null} onOpenChange={(isOpen) => !isOpen && setSelectedProduct(null)}>
-        <SheetContent side={isMobile ? "right" : "bottom"} className={cn(isMobile ? "w-full" : "h-4/5")}>
+        <SheetContent side={"bottom"} className={'h-4/5'}>
           {selectedProduct && (
             <div className="flex flex-col h-full">
               <div className="flex-grow overflow-y-auto space-y-4">
@@ -1024,6 +1024,7 @@ export default function Home() {
     
 
     
+
 
 
 
