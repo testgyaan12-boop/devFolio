@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useEffect, useState, useMemo, useRef } from 'react';
@@ -350,28 +351,31 @@ export default function Home() {
       </AlertDialog>
 
        <Sheet open={selectedProduct !== null} onOpenChange={(isOpen) => !isOpen && setSelectedProduct(null)}>
-        <SheetContent side="bottom" className="h-4/5">
+        <SheetContent side={isMobile ? "right" : "bottom"} className={cn(isMobile ? "w-full" : "h-4/5")}>
           {selectedProduct && (
             <div className="flex flex-col h-full">
-              <SheetHeader className="px-4">
-                <SheetTitle>{selectedProduct.name}</SheetTitle>
-                <SheetDescription>₹{selectedProduct.price.toFixed(2)}</SheetDescription>
-              </SheetHeader>
-              <div className="flex-grow overflow-y-auto p-4 space-y-4">
-                <div className="relative h-64 w-full rounded-md overflow-hidden">
+              <div className="flex-grow overflow-y-auto space-y-4">
+                <div className="relative h-80 w-full">
                   <Image
                     src={selectedProduct.src.replace('/300/300', '/600/600')}
                     alt={selectedProduct.alt}
                     fill
                     style={{ objectFit: 'cover' }}
                     data-ai-hint={selectedProduct.hint}
+                    className="rounded-b-lg"
                   />
                 </div>
-                <p className="text-muted-foreground">
-                  Introducing the {selectedProduct.name} - a perfect blend of style and purity. Ideal for personal use, corporate branding, or special events. This bottle is designed to be both durable and elegant. Customize it with your brand to make a lasting impression.
-                </p>
+                 <div className="p-4 space-y-4">
+                  <SheetHeader className="text-left">
+                    <SheetTitle className="text-2xl">{selectedProduct.name}</SheetTitle>
+                    <SheetDescription className="text-xl text-primary font-semibold">₹{selectedProduct.price.toFixed(2)}</SheetDescription>
+                  </SheetHeader>
+                  <p className="text-muted-foreground">
+                    Introducing the {selectedProduct.name} - a perfect blend of style and purity. Ideal for personal use, corporate branding, or special events. This bottle is designed to be both durable and elegant. Customize it with your brand to make a lasting impression.
+                  </p>
+                </div>
               </div>
-              <div className="p-4 border-t">
+              <div className="p-4 border-t mt-auto">
                  <Button className="w-full" onClick={() => {
                   handleToastAndAddToCart(selectedProduct);
                   setSelectedProduct(null);
@@ -1019,6 +1023,7 @@ export default function Home() {
     
 
     
+
 
 
 
