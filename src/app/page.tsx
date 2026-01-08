@@ -792,8 +792,8 @@ export default function Home() {
           <TabsContent value="payment">
             <Card>
               <CardHeader>
-                <CardTitle>Payment Status</CardTitle>
-                <CardDescription>View your pending and completed payments.</CardDescription>
+                <CardTitle className="hidden sm:block">Payment Status</CardTitle>
+                <CardDescription className="hidden sm:block">View your pending and completed payments.</CardDescription>
               </CardHeader>
               <CardContent>
                 <Tabs value={activePaymentTab} onValueChange={setActivePaymentTab}>
@@ -877,10 +877,3 @@ export default function Home() {
 
 
     
-
-
-
-
-
-
-
