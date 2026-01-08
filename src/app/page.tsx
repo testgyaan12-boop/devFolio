@@ -438,7 +438,7 @@ export default function Home() {
 
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-8">
-        <div className="p-4 md:p-8 md:pb-0 pb-20">
+        <div className="p-2 md:p-4 md:pb-0 pb-20">
           <TabsContent value="dashboard">
             <div className="space-y-8">
               <Carousel 
@@ -957,6 +957,8 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
 
