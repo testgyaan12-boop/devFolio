@@ -503,6 +503,41 @@ export default function Home() {
                 </CardContent>
               </Card>
 
+              <Card>
+                <CardHeader>
+                  <CardTitle>Most Sold Products</CardTitle>
+                  <CardDescription>Our best-selling items.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex space-x-4 overflow-x-auto pb-4">
+                    {products.slice(0, 4).map(product => (
+                      <Card key={product.id} className="min-w-[200px] flex-shrink-0 overflow-hidden">
+                        <div className="relative h-32 w-full">
+                           <Image
+                              src={product.src}
+                              alt={product.alt}
+                              fill
+                              style={{ objectFit: 'cover' }}
+                              data-ai-hint={product.hint}
+                            />
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold truncate">{product.name}</h3>
+                          <p className="text-sm text-muted-foreground">₹{product.price.toFixed(2)}</p>
+                          <Button 
+                            className="w-full mt-4" 
+                            size="sm"
+                            onClick={() => handleToastAndAddToCart(product)}
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
                <Card>
                 <CardHeader>
                   <CardTitle>Meet the Founders</CardTitle>
