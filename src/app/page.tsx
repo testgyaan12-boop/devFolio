@@ -223,6 +223,11 @@ export default function Home() {
       description: `Added ${quantity} x ${product.name} to your cart.`,
     });
   };
+  
+  const handleDashboardAddToCart = (product: Product) => {
+    handleToastAndAddToCart(product);
+    handleTabChange('product');
+  };
 
   const handleRemoveFromCart = (productId: number) => {
     setCart((prevCart) => prevCart.filter((item) => item.product.id !== productId));
@@ -536,7 +541,7 @@ export default function Home() {
                           <Button 
                             className="w-full mt-2 sm:mt-4" 
                             size="icon"
-                            onClick={() => handleToastAndAddToCart(product)}
+                            onClick={() => handleDashboardAddToCart(product)}
                           >
                             <ShoppingCart className="h-4 w-4" />
                           </Button>
