@@ -828,11 +828,11 @@ export default function Home() {
                     <Card key={order.id}>
                       <CardHeader>
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-                          <div className="flex-grow">
+                          <div>
                             <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
                             <CardDescription>{format(new Date(order.date), "MMMM d, yyyy 'at' h:mm a")}</CardDescription>
                           </div>
-                           <div className="flex items-center gap-2">
+                           <div className="flex items-center gap-4">
                             <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize shrink-0">
                               {order.status}
                             </Badge>
