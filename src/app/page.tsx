@@ -509,10 +509,10 @@ export default function Home() {
                   <CardDescription>Our best-selling items.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex space-x-4 overflow-x-auto pb-4">
-                    {products.slice(0, 4).map(product => (
-                      <Card key={product.id} className="min-w-[200px] flex-shrink-0 overflow-hidden">
-                        <div className="relative h-32 w-full">
+                  <div className="grid grid-flow-col auto-cols-[30%] md:auto-cols-[25%] lg:auto-cols-[20%] gap-4 overflow-x-auto pb-4">
+                    {products.slice(0, 6).map(product => (
+                      <Card key={product.id} className="overflow-hidden w-full">
+                        <div className="relative h-24 sm:h-32 w-full">
                            <Image
                               src={product.src}
                               alt={product.alt}
@@ -521,11 +521,11 @@ export default function Home() {
                               data-ai-hint={product.hint}
                             />
                         </div>
-                        <div className="p-4">
-                          <h3 className="font-semibold truncate">{product.name}</h3>
-                          <p className="text-sm text-muted-foreground">₹{product.price.toFixed(2)}</p>
+                        <div className="p-2 sm:p-4">
+                          <h3 className="font-semibold truncate text-sm sm:text-base">{product.name}</h3>
+                          <p className="text-xs sm:text-sm text-muted-foreground">₹{product.price.toFixed(2)}</p>
                           <Button 
-                            className="w-full mt-4" 
+                            className="w-full mt-2 sm:mt-4" 
                             size="sm"
                             onClick={() => handleToastAndAddToCart(product)}
                           >
@@ -537,6 +537,7 @@ export default function Home() {
                   </div>
                 </CardContent>
               </Card>
+
 
                <Card>
                 <CardHeader>
@@ -952,3 +953,4 @@ export default function Home() {
     
 
     
+
