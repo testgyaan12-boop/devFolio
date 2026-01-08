@@ -117,6 +117,10 @@ export default function Home() {
   const [brandFilter, setBrandFilter] = useState('all');
   const [isFounderSheetOpen, setIsFounderSheetOpen] = useState(false);
   const [selectedFounder, setSelectedFounder] = useState<Founder | null>(null);
+  
+  const [historySearchQuery, setHistorySearchQuery] = useState('');
+  const [historyStatusFilter, setHistoryStatusFilter] = useState('all');
+  const [paymentSearchQuery, setPaymentSearchQuery] = useState('');
 
    const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
@@ -149,15 +153,24 @@ export default function Home() {
     return cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
   }, [cart]);
 
+  const filteredHistory = useMemo(() => {
+    return orderHistory.filter(order => {
+      const matchesSearch = order.id.toLowerCase().includes(historySearchQuery.toLowerCase());
+      const matchesStatus = historyStatusFilter === 'all' || order.status === historyStatusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [orderHistory, historySearchQuery, historyStatusFilter]);
+
   const filteredPayments = useMemo(() => {
-    if (activePaymentTab === 'pending') {
-      return orderHistory.filter(order => order.status === 'Pending');
-    }
-    if (activePaymentTab === 'complete') {
-      return orderHistory.filter(order => order.status === 'Delivered');
-    }
-    return orderHistory;
-  }, [orderHistory, activePaymentTab]);
+    return orderHistory.filter(order => {
+      const matchesSearch = order.id.toLowerCase().includes(paymentSearchQuery.toLowerCase());
+      const matchesStatus = 
+        activePaymentTab === 'all' ||
+        (activePaymentTab === 'pending' && order.status === 'Pending') ||
+        (activePaymentTab === 'complete' && order.status === 'Delivered');
+      return matchesSearch && matchesStatus;
+    });
+  }, [orderHistory, paymentSearchQuery, activePaymentTab]);
 
   useEffect(() => {
     if (pathname === '/') {
@@ -817,14 +830,36 @@ export default function Home() {
           <TabsContent value="history">
             <Card>
               <CardHeader className="p-2 sm:p-4">
-                <CardTitle className="hidden sm:block">Order History</CardTitle>
-                <CardDescription className="hidden sm:block">Here are your past orders.</CardDescription>
+                 <CardTitle className="hidden sm:block">Order History</CardTitle>
+                 <CardDescription className="hidden sm:block">Here are your past orders.</CardDescription>
+                 <div className="flex items-center gap-4 pt-4">
+                  <div className="relative flex-grow">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="search"
+                      placeholder="Search by order ID..."
+                      className="pl-8 w-full"
+                      value={historySearchQuery}
+                      onChange={(e) => setHistorySearchQuery(e.target.value)}
+                    />
+                  </div>
+                   <Select value={historyStatusFilter} onValueChange={setHistoryStatusFilter}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                      <SelectValue placeholder="Filter by status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      <SelectItem value="Pending">Pending</SelectItem>
+                      <SelectItem value="Delivered">Delivered</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </CardHeader>
               <CardContent className="space-y-4 p-2 sm:p-4">
-                {orderHistory.length === 0 ? (
+                {filteredHistory.length === 0 ? (
                   <p className="text-muted-foreground text-center">You have no past orders.</p>
                 ) : (
-                  orderHistory.map((order) => (
+                  filteredHistory.map((order) => (
                     <Card key={order.id}>
                       <CardHeader className="p-2 sm:p-4">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
@@ -882,6 +917,18 @@ export default function Home() {
               <CardHeader className="p-2 sm:p-4">
                 <CardTitle className="hidden sm:block">Payment Status</CardTitle>
                 <CardDescription className="hidden sm:block">View your pending and completed payments.</CardDescription>
+                <div className="flex items-center gap-4 pt-4">
+                  <div className="relative flex-grow">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="search"
+                      placeholder="Search by order ID..."
+                      className="pl-8 w-full"
+                      value={paymentSearchQuery}
+                      onChange={(e) => setPaymentSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
               </CardHeader>
               <CardContent className="p-2 sm:p-4">
                 <Tabs value={activePaymentTab} onValueChange={setActivePaymentTab}>
@@ -893,7 +940,7 @@ export default function Home() {
                   <div className="mt-4 space-y-4">
                     {filteredPayments.length === 0 ? (
                       <p className="text-muted-foreground text-center py-8">
-                        No payments in this category.
+                        No payments found.
                       </p>
                     ) : (
                       filteredPayments.map((order) => (
@@ -963,4 +1010,5 @@ export default function Home() {
     
 
     
+
 
