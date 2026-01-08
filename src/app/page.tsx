@@ -816,17 +816,17 @@ export default function Home() {
           </TabsContent>
           <TabsContent value="history">
             <Card>
-              <CardHeader>
+              <CardHeader className="p-2 sm:p-4">
                 <CardTitle className="hidden sm:block">Order History</CardTitle>
                 <CardDescription className="hidden sm:block">Here are your past orders.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-2 sm:p-4">
                 {orderHistory.length === 0 ? (
                   <p className="text-muted-foreground text-center">You have no past orders.</p>
                 ) : (
                   orderHistory.map((order) => (
                     <Card key={order.id}>
-                      <CardHeader>
+                      <CardHeader className="p-2 sm:p-4">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                           <div>
                             <CardTitle className="text-lg">Order #{order.id.substring(0, 8)}</CardTitle>
@@ -840,7 +840,7 @@ export default function Home() {
                           </div>
                         </div>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className="p-2 sm:p-4">
                         <Separator className="mb-4" />
                         <div className="space-y-2">
                           {order.items.map(item => (
@@ -879,11 +879,11 @@ export default function Home() {
           </TabsContent>
           <TabsContent value="payment">
             <Card>
-              <CardHeader>
+              <CardHeader className="p-2 sm:p-4">
                 <CardTitle className="hidden sm:block">Payment Status</CardTitle>
                 <CardDescription className="hidden sm:block">View your pending and completed payments.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-2 sm:p-4">
                 <Tabs value={activePaymentTab} onValueChange={setActivePaymentTab}>
                   <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="all">All</TabsTrigger>
@@ -898,7 +898,7 @@ export default function Home() {
                     ) : (
                       filteredPayments.map((order) => (
                         <Card key={order.id}>
-                          <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                          <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div className="flex-grow">
                               <p className="font-semibold">Order #{order.id.substring(0, 8)}</p>
                               <p className="text-sm text-muted-foreground">{format(new Date(order.date), "MMMM d, yyyy")}</p>
@@ -963,3 +963,4 @@ export default function Home() {
     
 
     
+
