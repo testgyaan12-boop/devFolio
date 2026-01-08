@@ -526,10 +526,10 @@ export default function Home() {
                           <p className="text-xs sm:text-sm text-muted-foreground">₹{product.price.toFixed(2)}</p>
                           <Button 
                             className="w-full mt-2 sm:mt-4" 
-                            size="sm"
+                            size="icon"
                             onClick={() => handleToastAndAddToCart(product)}
                           >
-                            Add to Cart
+                            <ShoppingCart className="h-4 w-4" />
                           </Button>
                         </div>
                       </Card>
@@ -954,3 +954,6 @@ export default function Home() {
 
     
 
+
+
+    
