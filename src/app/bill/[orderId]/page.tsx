@@ -65,7 +65,11 @@ export default function BillPage() {
   const handleDownloadPdf = () => {
     const input = document.getElementById('bill-content');
     if (input) {
-      html2canvas(input, { scale: 2 }).then((canvas) => {
+       html2canvas(input, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: window.getComputedStyle(document.body).backgroundColor === 'rgb(255, 255, 255)' ? '#FFFFFF' : '#09090b'
+      }).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -73,18 +77,22 @@ export default function BillPage() {
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
         const ratio = canvasWidth / canvasHeight;
-        const width = pdfWidth;
-        const height = width / ratio;
+        const imgWidth = pdfWidth;
+        const imgHeight = imgWidth / ratio;
         
-        // If height is greater than pdfHeight, we may need to split it into multiple pages.
-        // For simplicity, we are fitting it into one page.
-        let finalHeight = height;
-        if (height > pdfHeight) {
-           finalHeight = pdfHeight;
-           console.warn("The invoice content is too long to fit on a single PDF page. It will be truncated.");
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
         }
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, width, finalHeight);
+
         pdf.save(`invoice-${order?.id.substring(0, 8)}.pdf`);
       });
     }
@@ -100,14 +108,14 @@ export default function BillPage() {
 
   return (
     <div className="min-h-screen bg-background p-4 sm:p-8">
-      <div id="bill-content" className="bg-background">
+      <div id="bill-content" className="bg-background p-4">
         <Card className="max-w-2xl mx-auto shadow-none border-0">
-          <CardHeader className="text-center">
+          <CardHeader className="text-center p-4">
             <h1 className="text-3xl font-bold text-primary">AquaBrand</h1>
             <CardTitle className="text-2xl mt-4">Invoice</CardTitle>
             <CardDescription>Thank you for your order!</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4">
             <Separator className="my-4" />
             <div className="flex justify-between text-sm text-muted-foreground">
               <div>
