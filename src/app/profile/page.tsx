@@ -134,11 +134,11 @@ export default function ProfilePage() {
           </Card>
         </TabsContent>
         <TabsContent value="report" className="mt-4">
-          <div className="grid gap-8">
+          <div className="grid gap-4">
              <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
                  <Card>
-                  <AccordionTrigger className="p-6">
+                  <AccordionTrigger className="p-4">
                      <CardHeader className="p-0 text-left">
                        <CardTitle>Previous Reports</CardTitle>
                        <CardDescription>Track the status of your submitted issues.</CardDescription>

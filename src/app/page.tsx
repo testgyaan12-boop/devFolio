@@ -437,10 +437,10 @@ export default function Home() {
       </Sheet>
 
       
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-8">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-4">
         <div className="p-2 md:p-4 md:pb-0 pb-20">
           <TabsContent value="dashboard">
-            <div className="space-y-8">
+            <div className="space-y-4">
               <Carousel 
                 className="w-full"
                 plugins={[autoplayPlugin.current]}
@@ -474,7 +474,7 @@ export default function Home() {
                <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1" className="border-b-0">
                   <Card>
-                    <AccordionTrigger className="p-6 text-left">
+                    <AccordionTrigger className="p-4 text-left">
                        <CardHeader className="p-0">
                          <CardTitle>Recent Orders</CardTitle>
                          <CardDescription>Track your recent purchases.</CardDescription>
@@ -558,7 +558,7 @@ export default function Home() {
                   <CardTitle>Meet the Founders</CardTitle>
                   <CardDescription>The visionaries behind AquaBrand.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-6">
+                <CardContent className="grid grid-cols-2 gap-4">
                   {founders.map((founder) => (
                     <div key={founder.name} className="flex flex-col items-center gap-4 text-center">
                        <div className="relative h-32 w-32 rounded-full overflow-hidden shrink-0">
@@ -625,12 +625,12 @@ export default function Home() {
             </div>
           </TabsContent>
           <TabsContent value="product">
-             <div className="grid gap-8 lg:grid-cols-3">
+             <div className="grid gap-4 lg:grid-cols-3">
                <div className="lg:col-span-1 lg:order-last">
                  <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
                    <AccordionItem value="item-1" className="border-b-0">
                      <Card>
-                       <AccordionTrigger className="p-6">
+                       <AccordionTrigger className="p-4">
                          <div className="flex justify-between w-full">
                            <CardTitle>Order Summary</CardTitle>
                            <CardDescription className="pr-4">
