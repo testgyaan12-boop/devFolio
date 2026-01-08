@@ -509,7 +509,7 @@ export default function Home() {
                   <CardDescription>Our best-selling items.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-flow-col auto-cols-[30%] md:auto-cols-[25%] lg:auto-cols-[20%] gap-4 overflow-x-auto pb-4">
+                  <div className="grid grid-flow-col auto-cols-[45%] md:auto-cols-[25%] lg:auto-cols-[20%] gap-4 overflow-x-auto pb-4">
                     {products.slice(0, 6).map(product => (
                       <Card key={product.id} className="overflow-hidden w-full">
                         <div className="relative h-24 sm:h-32 w-full">
@@ -955,5 +955,7 @@ export default function Home() {
     
 
 
+
+    
 
     
