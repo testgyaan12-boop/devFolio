@@ -156,7 +156,7 @@ export default function Home() {
   const filteredHistory = useMemo(() => {
     return orderHistory.filter(order => {
       const matchesSearch = order.id.toLowerCase().includes(historySearchQuery.toLowerCase());
-      const matchesStatus = historyStatusFilter === 'all' || order.status === historyStatusFilter;
+      const matchesStatus = historyStatusFilter === 'all' || order.status.toLowerCase() === historyStatusFilter;
       return matchesSearch && matchesStatus;
     });
   }, [orderHistory, historySearchQuery, historyStatusFilter]);
@@ -832,7 +832,7 @@ export default function Home() {
               <CardHeader className="p-2 sm:p-4">
                  <CardTitle className="hidden sm:block">Order History</CardTitle>
                  <CardDescription className="hidden sm:block">Here are your past orders.</CardDescription>
-                 <div className="flex items-center gap-4 pt-4">
+                 <div className="flex items-center gap-2 pt-4">
                   <div className="relative flex-grow">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -843,16 +843,25 @@ export default function Home() {
                       onChange={(e) => setHistorySearchQuery(e.target.value)}
                     />
                   </div>
-                   <Select value={historyStatusFilter} onValueChange={setHistoryStatusFilter}>
-                    <SelectTrigger className="w-full sm:w-[180px]">
-                      <SelectValue placeholder="Filter by status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Statuses</SelectItem>
-                      <SelectItem value="Pending">Pending</SelectItem>
-                      <SelectItem value="Delivered">Delivered</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon" className="shrink-0">
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Filter by status</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuRadioGroup
+                        value={historyStatusFilter}
+                        onValueChange={setHistoryStatusFilter}
+                      >
+                        <DropdownMenuRadioItem value="all">All Statuses</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="pending">Pending</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="delivered">Delivered</DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4 p-2 sm:p-4">
@@ -1010,5 +1019,6 @@ export default function Home() {
     
 
     
+
 
 
