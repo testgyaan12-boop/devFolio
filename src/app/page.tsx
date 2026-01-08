@@ -729,8 +729,8 @@ export default function Home() {
           <TabsContent value="history">
             <Card>
               <CardHeader>
-                <CardTitle>Order History</CardTitle>
-                <CardDescription>Here are your past orders.</CardDescription>
+                <CardTitle className="hidden sm:block">Order History</CardTitle>
+                <CardDescription className="hidden sm:block">Here are your past orders.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {orderHistory.length === 0 ? (
@@ -877,6 +877,7 @@ export default function Home() {
 
 
     
+
 
 
 
