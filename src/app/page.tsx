@@ -603,8 +603,8 @@ export default function Home() {
               <div className="lg:col-span-2">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Place a New Order</CardTitle>
-                    <CardDescription>Select your desired bottles and quantities.</CardDescription>
+                    <CardTitle className="hidden sm:block">Place a New Order</CardTitle>
+                    <CardDescription className="hidden sm:block">Select your desired bottles and quantities.</CardDescription>
                      <div className="flex items-center gap-4 pt-4">
                       <div className="relative flex-grow">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -877,6 +877,7 @@ export default function Home() {
 
 
     
+
 
 
 
