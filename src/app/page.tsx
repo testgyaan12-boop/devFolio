@@ -467,6 +467,44 @@ export default function Home() {
               
                <Card>
                 <CardHeader>
+                  <CardTitle>Recent Orders</CardTitle>
+                  <CardDescription>Track your recent purchases.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex space-x-4 overflow-x-auto pb-4">
+                    {orderHistory.length > 0 ? (
+                      orderHistory.map(order => (
+                        <Card key={order.id} className="min-w-[280px] flex-shrink-0">
+                          <CardHeader>
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <CardTitle className="text-base">Order #{order.id.substring(0, 8)}</CardTitle>
+                                <CardDescription>{format(new Date(order.date), "MMMM d, yyyy")}</CardDescription>
+                              </div>
+                              <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="capitalize">
+                                {order.status}
+                              </Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-lg font-semibold">₹{order.total.toFixed(2)}</div>
+                            <Button variant="link" className="p-0 h-auto" onClick={() => handleDownloadBill(order.id)}>
+                              View Details
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      ))
+                    ) : (
+                      <div className="w-full text-center text-muted-foreground py-8">
+                        You have no recent orders.
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+               <Card>
+                <CardHeader>
                   <CardTitle>Meet the Founders</CardTitle>
                   <CardDescription>The visionaries behind AquaBrand.</CardDescription>
                 </CardHeader>
@@ -875,5 +913,7 @@ export default function Home() {
     
 
 
+
+    
 
     
