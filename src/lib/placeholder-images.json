@@ -1,12 +1,12 @@
 {
   "carousel-water": [
     {
-      "src": "https://picsum.photos/seed/waterbottle1/1200/400",
+      "src": "https://res.cloudinary.com/disjeejix/image/upload/w_1200,h_400,c_fill/v1768055771/cld-sample-4.jpg",
       "alt": "A collection of branded water bottles.",
       "hint": "branded bottles"
     },
     {
-      "src": "https://picsum.photos/seed/waterbottle2/1200/400",
+      "src": "https://res.cloudinary.com/disjeejix/image/upload/v1768057237/Gemini_Generated_Image_pba3d4pba3d4pba3_vrdv77.png",
       "alt": "A person holding a custom water bottle.",
       "hint": "custom bottle"
     },
