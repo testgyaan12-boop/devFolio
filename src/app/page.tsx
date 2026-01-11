@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat, Moon, Sun, Info, Search, Filter } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, History, CreditCard, User, Plus, Minus, Trash2, Download, Repeat, Moon, Sun, Info, Search, Filter, Star, Phone, Mail, MapPin } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -100,6 +100,10 @@ type Client = {
   src: string;
   alt: string;
   hint: string;
+  about: string;
+  address: string;
+  contact: string;
+  rating: number;
 };
 
 export default function Home() {
@@ -126,6 +130,8 @@ export default function Home() {
   const [brandFilter, setBrandFilter] = useState('all');
   const [isFounderSheetOpen, setIsFounderSheetOpen] = useState(false);
   const [selectedFounder, setSelectedFounder] = useState<Founder | null>(null);
+  const [isClientSheetOpen, setIsClientSheetOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   
   const [historySearchQuery, setHistorySearchQuery] = useState('');
   const [historyStatusFilter, setHistoryStatusFilter] = useState('all');
@@ -317,6 +323,25 @@ export default function Home() {
     setIsFounderSheetOpen(true);
   };
 
+  const handleClientClick = (client: Client) => {
+    setSelectedClient(client);
+    setIsClientSheetOpen(true);
+  };
+
+  const StarRating = ({ rating }: { rating: number }) => (
+    <div className="flex items-center">
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          className={cn(
+            "h-5 w-5",
+            i < rating ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"
+          )}
+        />
+      ))}
+    </div>
+  );
+
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -462,6 +487,60 @@ export default function Home() {
         </SheetContent>
       </Sheet>
 
+      <Sheet open={isClientSheetOpen} onOpenChange={(isOpen) => { if (!isOpen) setSelectedClient(null); setIsClientSheetOpen(isOpen);}}>
+        <SheetContent side="bottom" className="h-4/5 rounded-t-lg">
+          {selectedClient && (
+            <div className="flex flex-col h-full">
+              <SheetHeader className="p-4 text-center">
+                  <div className="relative h-24 w-24 mx-auto">
+                    <Image
+                      src={selectedClient.src}
+                      alt={selectedClient.alt}
+                      fill
+                      style={{ objectFit: 'contain' }}
+                      data-ai-hint={selectedClient.hint}
+                    />
+                  </div>
+                  <SheetTitle className="text-2xl mt-2">{selectedClient.name}</SheetTitle>
+              </SheetHeader>
+              <div className="flex-grow overflow-y-auto p-4 space-y-6">
+                <Card>
+                  <CardContent className="p-4">
+                     <h3 className="font-semibold mb-2">About Us</h3>
+                    <p className="text-muted-foreground">{selectedClient.about}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                   <CardContent className="p-4 space-y-4">
+                     <h3 className="font-semibold">Contact Information</h3>
+                     <div className="flex items-start gap-4">
+                       <MapPin className="h-5 w-5 text-muted-foreground mt-1"/>
+                       <div>
+                         <p className="font-medium">Address</p>
+                         <p className="text-muted-foreground">{selectedClient.address}</p>
+                       </div>
+                     </div>
+                      <div className="flex items-start gap-4">
+                       <Mail className="h-5 w-5 text-muted-foreground mt-1"/>
+                       <div>
+                         <p className="font-medium">Email</p>
+                         <a href={`mailto:${selectedClient.contact}`} className="text-primary hover:underline">{selectedClient.contact}</a>
+                       </div>
+                     </div>
+                   </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold mb-2">Our Rating</h3>
+                    <StarRating rating={selectedClient.rating} />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-grow md:pt-4">
         <div className="p-2 md:p-4 md:pb-0 pb-20">
@@ -512,7 +591,7 @@ export default function Home() {
                           {orderHistory.length > 0 ? (
                             orderHistory.map(order => (
                               <Card key={order.id} className="min-w-[280px] flex-shrink-0">
-                                <CardHeader>
+                                <CardHeader className="p-4">
                                   <div className="flex justify-between items-start">
                                     <div>
                                       <CardTitle className="text-base">Order #{order.id.substring(0, 8)}</CardTitle>
@@ -523,7 +602,7 @@ export default function Home() {
                                     </Badge>
                                   </div>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="p-4 pt-0">
                                   <div className="text-lg font-semibold">₹{order.total.toFixed(2)}</div>
                                   <Button variant="link" className="p-0 h-auto" onClick={() => handleDownloadBill(order.id)}>
                                     View Details
@@ -586,7 +665,7 @@ export default function Home() {
                 <CardContent>
                    <div className="grid grid-flow-col auto-cols-max gap-8 overflow-x-auto pb-4 px-2">
                     {clients.map((client, index) => (
-                      <div key={index} className="flex flex-col items-center justify-center gap-2">
+                      <div key={index} className="flex flex-col items-center justify-center gap-2 cursor-pointer" onClick={() => handleClientClick(client)}>
                          <div className="relative h-20 w-20">
                           <Image
                             src={client.src}
@@ -1058,6 +1137,7 @@ export default function Home() {
     
 
     
+
 
 
 

@@ -103,37 +103,61 @@
       "name": "Innovate Inc.",
       "src": "https://picsum.photos/seed/innovate/150/150",
       "alt": "Innovate Inc. logo",
-      "hint": "company logo"
+      "hint": "company logo",
+      "about": "A leading technology firm specializing in AI-driven solutions.",
+      "address": "123 Tech Park, Silicon Valley, CA",
+      "contact": "contact@innovateinc.com",
+      "rating": 5
     },
     {
       "name": "Quantum Corp.",
       "src": "https://picsum.photos/seed/quantum/150/150",
       "alt": "Quantum Corp. logo",
-      "hint": "tech logo"
+      "hint": "tech logo",
+      "about": "Pioneers in quantum computing and data analytics.",
+      "address": "456 Future Drive, Boston, MA",
+      "contact": "info@quantumcorp.com",
+      "rating": 4
     },
     {
       "name": "Vertex Solutions",
       "src": "https://picsum.photos/seed/vertex/150/150",
       "alt": "Vertex Solutions logo",
-      "hint": "solutions logo"
+      "hint": "solutions logo",
+      "about": "Providing comprehensive business solutions and consulting.",
+      "address": "789 Enterprise Blvd, Chicago, IL",
+      "contact": "support@vertexsolutions.com",
+      "rating": 5
     },
     {
       "name": "Apex Industries",
       "src": "https://picsum.photos/seed/apex/150/150",
       "alt": "Apex Industries logo",
-      "hint": "industry logo"
+      "hint": "industry logo",
+      "about": "A global leader in manufacturing and industrial automation.",
+      "address": "101 Industrial Way, Detroit, MI",
+      "contact": "media@apexindustries.com",
+      "rating": 4
     },
     {
       "name": "Stellar Co.",
       "src": "https://picsum.photos/seed/stellar/150/150",
       "alt": "Stellar Co. logo",
-      "hint": "company logo"
+      "hint": "company logo",
+      "about": "Creative agency focusing on branding and marketing.",
+      "address": "212 Creative Lane, New York, NY",
+      "contact": "hello@stellarco.com",
+      "rating": 5
     },
     {
       "name": "Synergy Group",
       "src": "https://picsum.photos/seed/synergy/150/150",
       "alt": "Synergy Group logo",
-      "hint": "group logo"
+      "hint": "group logo",
+      "about": "A conglomerate with a diverse portfolio in finance and real estate.",
+      "address": "333 Financial District, London, UK",
+      "contact": "contact@synergy.com",
+      "rating": 4
     }
   ]
 }
