@@ -95,6 +95,13 @@ type Founder = {
   hint: string;
 };
 
+type Client = {
+  name: string;
+  src: string;
+  alt: string;
+  hint: string;
+};
+
 export default function Home() {
   const router = useRouter();
   const pathname = usePathname();
@@ -137,6 +144,7 @@ export default function Home() {
 
   const products: Product[] = placeholderImages['order-bottles'];
   const founders: Founder[] = placeholderImages.founder;
+  const clients: Client[] = placeholderImages['our-clients'];
 
   const brands = useMemo(() => {
     const allBrands = products.map(p => p.name.split(' ')[0]);
@@ -489,7 +497,7 @@ export default function Home() {
                 <CarouselNext className="hidden md:flex" />
               </Carousel>
               
-               <Accordion type="single" collapsible className="w-full">
+               <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
                 <AccordionItem value="item-1" className="border-b-0">
                   <Card>
                     <AccordionTrigger className="p-4 text-left">
@@ -565,6 +573,32 @@ export default function Home() {
                           </Button>
                         </div>
                       </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Our Clients</CardTitle>
+                  <CardDescription>We're proud to work with leading companies.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                   <div className="grid grid-flow-col auto-cols-max gap-8 overflow-x-auto pb-4 px-2">
+                    {clients.map((client, index) => (
+                      <div key={index} className="flex flex-col items-center justify-center gap-2">
+                         <div className="relative h-20 w-20">
+                          <Image
+                            src={client.src}
+                            alt={client.alt}
+                            fill
+                            style={{ objectFit: 'contain' }}
+                            data-ai-hint={client.hint}
+                            className="grayscale hover:grayscale-0 transition-all duration-300"
+                          />
+                        </div>
+                        <p className="text-sm font-medium text-muted-foreground">{client.name}</p>
+                      </div>
                     ))}
                   </div>
                 </CardContent>
@@ -1024,6 +1058,7 @@ export default function Home() {
     
 
     
+
 
 
 

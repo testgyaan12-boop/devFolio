@@ -97,5 +97,43 @@
       "alt": "Arbaaz, co-founder of AquaBrand",
       "hint": "founder portrait"
     }
+  ],
+  "our-clients": [
+    {
+      "name": "Innovate Inc.",
+      "src": "https://picsum.photos/seed/innovate/150/150",
+      "alt": "Innovate Inc. logo",
+      "hint": "company logo"
+    },
+    {
+      "name": "Quantum Corp.",
+      "src": "https://picsum.photos/seed/quantum/150/150",
+      "alt": "Quantum Corp. logo",
+      "hint": "tech logo"
+    },
+    {
+      "name": "Vertex Solutions",
+      "src": "https://picsum.photos/seed/vertex/150/150",
+      "alt": "Vertex Solutions logo",
+      "hint": "solutions logo"
+    },
+    {
+      "name": "Apex Industries",
+      "src": "https://picsum.photos/seed/apex/150/150",
+      "alt": "Apex Industries logo",
+      "hint": "industry logo"
+    },
+    {
+      "name": "Stellar Co.",
+      "src": "https://picsum.photos/seed/stellar/150/150",
+      "alt": "Stellar Co. logo",
+      "hint": "company logo"
+    },
+    {
+      "name": "Synergy Group",
+      "src": "https://picsum.photos/seed/synergy/150/150",
+      "alt": "Synergy Group logo",
+      "hint": "group logo"
+    }
   ]
 }
